@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -37,7 +38,10 @@
       </AnchorPane>
       <AnchorPane layoutX="100.0" prefHeight="400.0" prefWidth="600.0" style="-fx-border-color: orange; -fx-background-color: white;">
          <children>
-            <Label alignment="CENTER" layoutX="150.0" layoutY="30.0" prefHeight="50.0" prefWidth="300.0" style="-fx-border-color: orange;" textAlignment="CENTER" />
+            <Label alignment="CENTER" layoutX="150.0" layoutY="30.0" prefHeight="50.0" prefWidth="300.0" style="-fx-border-color: orange;">
+               <font>
+                  <Font name="Gulim" size="15.0" />
+               </font></Label>
             <TableView layoutX="40.0" layoutY="110.0" prefHeight="270.0" prefWidth="520.0">
               <columns>
                 <TableColumn prefWidth="418.6667022705078" text="목표" />
@@ -55,6 +59,70 @@
                   <Image url="@../../img/arrow_80px.png" />
                </image>
             </ImageView>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="100.0" prefHeight="400.0" prefWidth="600.0" style="-fx-border-color: orange; -fx-background-color: white;" visible="false">
+         <children>
+            <Label alignment="CENTER" layoutX="150.0" layoutY="30.0" prefHeight="50.0" prefWidth="300.0" style="-fx-border-color: orange;" textAlignment="CENTER">
+               <font>
+                  <Font name="Gulim" size="15.0" />
+               </font>
+            </Label>
+            <TableView layoutX="40.0" layoutY="110.0" prefHeight="270.0" prefWidth="520.0">
+               <columns>
+                  <TableColumn prefWidth="74.28571428571429" text="월" />
+                  <TableColumn prefWidth="74.28571428571429" text="화" />
+                  <TableColumn prefWidth="74.28571428571429" text="수" />
+                  <TableColumn prefWidth="74.28571428571429" text="목" />
+                  <TableColumn prefWidth="74.28571428571429" text="금" />
+                  <TableColumn prefWidth="74.28571428571429" text="토" />
+                  <TableColumn prefWidth="74.28571428571429" text="일" />
+               </columns>
+            </TableView>
+            <ImageView fitHeight="50.0" fitWidth="52.0" layoutX="89.0" layoutY="30.0">
+               <image>
+                  <Image url="@../../img/arrow_pointing_left_80px.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="50.0" fitWidth="52.0" layoutX="459.0" layoutY="30.0">
+               <image>
+                  <Image url="@../../img/arrow_80px.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="100.0" prefHeight="400.0" prefWidth="600.0" style="-fx-border-color: orange; -fx-background-color: white;" visible="false">
+         <children>
+            <Label alignment="CENTER" layoutX="150.0" layoutY="30.0" prefHeight="50.0" prefWidth="300.0" style="-fx-border-color: orange;" text="목표관리" textAlignment="CENTER">
+               <font>
+                  <Font name="Gulim" size="15.0" />
+               </font>
+            </Label>
+            <TableView layoutX="40.0" layoutY="110.0" prefHeight="270.0" prefWidth="520.0">
+               <columns>
+                  <TableColumn prefWidth="120.0" text="간단명" />
+                  <TableColumn prefWidth="140.0" text="등록일" />
+                  <TableColumn prefWidth="86.66666666666667" text="완료" />
+                  <TableColumn prefWidth="86.66666666666667" text="미완료" />
+                  <TableColumn prefWidth="86.66666666666667" text="달성률" />
+               </columns>
+            </TableView>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="200.0" layoutY="80.0" prefHeight="250.0" prefWidth="400.0" style="-fx-border-color: red; -fx-border-width: 2; -fx-background-color: white;" visible="false">
+         <children>
+            <Label alignment="CENTER" layoutX="50.0" layoutY="30.0" prefHeight="40.0" prefWidth="150.0" style="-fx-border-color: orange;" text="목표추가">
+               <font>
+                  <Font name="Gulim" size="15.0" />
+               </font>
+            </Label>
+            <TextField layoutX="50.0" layoutY="100.0" prefHeight="40.0" prefWidth="300.0" promptText="등록할 목표를 입력하세요" />
+            <TextField layoutX="50.0" layoutY="170.0" prefHeight="40.0" prefWidth="300.0" promptText="목표를 간단하게 나타낼 간단명을 입력하세요" />
+            <Button layoutX="270.0" layoutY="30.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="80.0" style="-fx-background-color: #2196f3;" text="등록" textFill="WHITE">
+               <font>
+                  <Font name="Gulim" size="15.0" />
+               </font>
+            </Button>
          </children>
       </AnchorPane>
    </children>
