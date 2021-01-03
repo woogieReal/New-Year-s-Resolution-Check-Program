@@ -84,7 +84,7 @@
                   <Image url="@../../img/arrow_pointing_left_80px.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="rightInWeeklyButton" fitHeight="50.0" fitWidth="52.0" layoutX="459.0" layoutY="30.0">
+            <ImageView fx:id="rightInWeeklyButton" fitHeight="50.0" fitWidth="52.0" layoutX="459.0" layoutY="30.0" onMouseClicked="#rightInWeeklyButton">
                <image>
                   <Image url="@../../img/arrow_80px.png" />
                </image>

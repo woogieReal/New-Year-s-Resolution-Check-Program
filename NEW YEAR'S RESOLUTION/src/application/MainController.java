@@ -59,21 +59,21 @@ public class MainController {
 	@FXML
 	private Label dateInWeeklyLabel;
 	@FXML
-	private TableView<?> viewInWeeklyTabel;
+	private TableView<Weekly> viewInWeeklyTabel;
 	@FXML
-    private TableColumn<?, ?> monColumn;
+    private TableColumn<Weekly, String> monColumn;
     @FXML
-    private TableColumn<?, ?> tueColumn;
+    private TableColumn<Weekly, String> tueColumn;
     @FXML
-    private TableColumn<?, ?> wedColumn;
+    private TableColumn<Weekly, String> wedColumn;
     @FXML
-    private TableColumn<?, ?> thuColumn;
+    private TableColumn<Weekly, String> thuColumn;
     @FXML
-    private TableColumn<?, ?> friColumn;
+    private TableColumn<Weekly, String> friColumn;
     @FXML
-    private TableColumn<?, ?> satColumn;
+    private TableColumn<Weekly, String> satColumn;
     @FXML
-    private TableColumn<?, ?> sunColumn;
+    private TableColumn<Weekly, String> sunColumn;
 	@FXML
 	private ImageView leftInWeeklyButton;
 	@FXML
@@ -131,6 +131,7 @@ public class MainController {
 		
 		//일간화면 페이지
 		String today = LocalDate.now().toString();
+		dateInDailyLabel.setText(today);
 		String[] str = today.split("-");
 		String result = str[0]+"y"+str[1]+"m"+str[2]+"d";
 		
@@ -140,11 +141,12 @@ public class MainController {
 		list2 = MySQLConnect.getDataDaily(result);
 		viewInDailyTabel.setItems(list2);
 		
-		dateInDailyLabel.setText(today);
+		WeeklyController.WeeklyTable(dateInWeeklyLabel, viewInWeeklyTabel, monColumn, tueColumn, wedColumn, thuColumn, friColumn, satColumn, sunColumn);
 		
 	}
 	
 	public void updateTable() {
+		//목표관리 페이지
 		ObservableList<goals> list;
 		
 		goal_detailColumn.setCellValueFactory(new PropertyValueFactory<goals, String>("goal_detail"));
@@ -155,6 +157,19 @@ public class MainController {
 		
 		list = MySQLConnect.getDataGoals();
 		viewInGoalManageTabel.setItems(list);
+		
+		//일간화면 페이지
+		String today = LocalDate.now().toString();
+		dateInDailyLabel.setText(today);
+		String[] str = today.split("-");
+		String result = str[0]+"y"+str[1]+"m"+str[2]+"d";
+		
+		ObservableList<Daily> list2;
+		goal_detailInDailyColumn.setCellValueFactory(new PropertyValueFactory<Daily, String>("goal_detail"));
+		completeOrNotColumn.setCellValueFactory(new PropertyValueFactory<Daily, String>("complete"));
+		list2 = MySQLConnect.getDataDaily(result);
+		viewInDailyTabel.setItems(list2);
+		
 	}
 	
 	public MainController() {
@@ -237,6 +252,53 @@ public class MainController {
 			newGoalTextField.setText("");
 			simpleNameTextField.setText("");
 			updateTable();
+			
+			for(int i = 1; i <= 12; i++) {
+				for(int j = 1; j <= 31; j++ ) {
+					if(i <= 9) {
+						if(j <= 9) {
+							StringBuilder sb3 = new StringBuilder();
+							String SQL3 = sb3.append("INSERT INTO 2021y0")
+									.append(i+"m0")
+									.append(j+"d VALUES(")
+									.append("'"+newGoal+"', '미완료')")
+									.toString();
+							st.execute(SQL3);
+							System.out.println(+i+"월"+j+"일 성공");					
+						} else {
+							StringBuilder sb3 = new StringBuilder();
+							String SQL3 = sb3.append("INSERT INTO 2021y0")
+									.append(i+"m")
+									.append(j+"d VALUES(")
+									.append("'"+newGoal+"', '미완료')")
+									.toString();
+							st.execute(SQL3);
+							System.out.println(+i+"월"+j+"일 성공");		
+						}
+					} else {
+						if(j <= 9) {
+							StringBuilder sb3 = new StringBuilder();
+							String SQL3 = sb3.append("INSERT INTO 2021y")
+									.append(i+"m0")
+									.append(j+"d VALUES(")
+									.append("'"+newGoal+"', '미완료')")
+									.toString();
+							st.execute(SQL3);
+							System.out.println(+i+"월"+j+"일 성공");					
+						} else {
+							StringBuilder sb3 = new StringBuilder();
+							String SQL3 = sb3.append("INSERT INTO 2021y")
+									.append(i+"m")
+									.append(j+"d VALUES(")
+									.append("'"+newGoal+"', '미완료')")
+									.toString();
+							st.execute(SQL3);
+							System.out.println(+i+"월"+j+"일 성공");		
+						}
+					}
+				}
+			}
+			
 			InfoTextField.setText("성공적으로 목표를 등록하였습니다.");
 			infoAnchorPane.setVisible(true);
 		} catch (Exception e) {
@@ -313,7 +375,31 @@ public class MainController {
 		}
 	}
 	
+	public void rightInWeeklyButton(MouseEvent event) {
+		try {
+			String thisWeekStart = dateInWeeklyLabel.getText();
+			String[] str = thisWeekStart.split("-");
+			int year = Integer.parseInt(str[0]);
+			int month = Integer.parseInt(str[1]);
+			int dayOfMonth = Integer.parseInt(str[2]);
+			LocalDate thisWeekStart2 = LocalDate.of(year, month, dayOfMonth);
+			String nextWeekStart = thisWeekStart2.plusDays(7).toString();
+			dateInWeeklyLabel.setText(nextWeekStart);
+			
+//			String[] str2 = tomorrow.split("-");
+//			String result = str2[0]+"y"+str2[1]+"m"+str2[2]+"d";
+//			
+//			ObservableList<Daily> list2;
+//			goal_detailInDailyColumn.setCellValueFactory(new PropertyValueFactory<Daily, String>("goal_detail"));
+//			completeOrNotColumn.setCellValueFactory(new PropertyValueFactory<Daily, String>("complete"));
+//			list2 = MySQLConnect.getDataDaily(result);
+//			viewInDailyTabel.setItems(list2);
+						
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
-	
+
 	
 }

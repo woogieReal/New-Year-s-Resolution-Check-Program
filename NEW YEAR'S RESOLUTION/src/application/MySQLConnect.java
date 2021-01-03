@@ -49,7 +49,7 @@ public class MySQLConnect {
 		
 	}
 	
-public static ObservableList<Daily> getDataDaily(String date){
+	public static ObservableList<Daily> getDataDaily(String date){
 		
 		Connection conn = connectDB();
 		ObservableList<Daily> list = FXCollections.observableArrayList();
@@ -65,7 +65,31 @@ public static ObservableList<Daily> getDataDaily(String date){
 				
 			}
 		} catch(Exception e) {
-			System.out.println("goals" + e.getMessage());
+			System.out.println("Daily" + e.getMessage());
+
+		}
+		
+		return list;
+		
+	}
+	
+public static ObservableList<Weekly> getDataWeekly(String date){
+		
+		Connection conn = connectDB();
+		ObservableList<Weekly> list = FXCollections.observableArrayList();
+		
+		try {
+			String SQL = "SELECT * FROM " + date +"week";
+			PreparedStatement ps = conn.prepareStatement(SQL);
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				
+				list.add(new Weekly(rs.getString("mon"),rs.getString("tue"),rs.getString("wed"),rs.getString("thu"),rs.getString("fri"),rs.getString("sat"),rs.getString("sun")));
+				
+			}
+		} catch(Exception e) {
+			System.out.println("Weekly" + e.getMessage());
 
 		}
 		
