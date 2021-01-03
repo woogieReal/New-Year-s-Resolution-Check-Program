@@ -16,6 +16,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
 public class MainController {
@@ -40,7 +41,13 @@ public class MainController {
 	@FXML
 	private Label dateInDailyLabel;
 	@FXML
-	private TableView<?> viewInDailyTabel;
+	private TableView<Daily> viewInDailyTabel;
+	@FXML
+	private TableColumn<Daily, String> goal_detailInDailyColumn;
+	@FXML
+	private TableColumn<Daily, String> completeOrNotColumn;
+	@FXML
+	private Button incomplete1Button;
 	@FXML
 	private ImageView leftInDailyButton;
 	@FXML
@@ -110,7 +117,8 @@ public class MainController {
 	private TextField InfoTextField;
 	
 	public void initialize() {
-		ObservableList<goals> list;
+		//목표관리 페이지
+		ObservableList<goals> list;	
 		goal_detailColumn.setCellValueFactory(new PropertyValueFactory<goals, String>("goal_detail"));
 		simple_nameColumn.setCellValueFactory(new PropertyValueFactory<goals, String>("simple_name"));
 		registration_dateColumn.setCellValueFactory(new PropertyValueFactory<goals, String>("registration_date"));
@@ -120,10 +128,25 @@ public class MainController {
 		list = MySQLConnect.getDataGoals();
 		viewInGoalManageTabel.setItems(list);
 		
+		
+		//일간화면 페이지
+		String today = LocalDate.now().toString();
+		String[] str = today.split("-");
+		String result = str[0]+"y"+str[1]+"m"+str[2]+"d";
+		
+		ObservableList<Daily> list2;
+		goal_detailInDailyColumn.setCellValueFactory(new PropertyValueFactory<Daily, String>("goal_detail"));
+		completeOrNotColumn.setCellValueFactory(new PropertyValueFactory<Daily, String>("complete"));
+		list2 = MySQLConnect.getDataDaily(result);
+		viewInDailyTabel.setItems(list2);
+		
+		dateInDailyLabel.setText(today);
+		
 	}
 	
 	public void updateTable() {
 		ObservableList<goals> list;
+		
 		goal_detailColumn.setCellValueFactory(new PropertyValueFactory<goals, String>("goal_detail"));
 		simple_nameColumn.setCellValueFactory(new PropertyValueFactory<goals, String>("simple_name"));
 		registration_dateColumn.setCellValueFactory(new PropertyValueFactory<goals, String>("registration_date"));
@@ -225,6 +248,66 @@ public class MainController {
 		try {
 			infoAnchorPane.setVisible(false);
 			InfoTextField.setText("");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void incomplete1Button(ActionEvent event) {
+		try {
+			incomplete1Button.setText("완료");
+			incomplete1Button.setStyle("-fx-background-color: blue");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void leftInDailyButton(MouseEvent event) {
+		try {
+			String today = dateInDailyLabel.getText();
+			String[] str = today.split("-");
+			int year = Integer.parseInt(str[0]);
+			int month = Integer.parseInt(str[1]);
+			int dayOfMonth = Integer.parseInt(str[2]);
+			LocalDate today2 = LocalDate.of(year, month, dayOfMonth);
+			String yesterday = today2.minusDays(1).toString();
+			dateInDailyLabel.setText(yesterday);
+			
+			String[] str2 = yesterday.split("-");
+			String result = str2[0]+"y"+str2[1]+"m"+str2[2]+"d";
+			
+			ObservableList<Daily> list2;
+			goal_detailInDailyColumn.setCellValueFactory(new PropertyValueFactory<Daily, String>("goal_detail"));
+			completeOrNotColumn.setCellValueFactory(new PropertyValueFactory<Daily, String>("complete"));
+			list2 = MySQLConnect.getDataDaily(result);
+			viewInDailyTabel.setItems(list2);
+						
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void rightInDailyButton(MouseEvent event) {
+		try {
+			String today = dateInDailyLabel.getText();
+			String[] str = today.split("-");
+			int year = Integer.parseInt(str[0]);
+			int month = Integer.parseInt(str[1]);
+			int dayOfMonth = Integer.parseInt(str[2]);
+			LocalDate today2 = LocalDate.of(year, month, dayOfMonth);
+			String tomorrow = today2.plusDays(1).toString();
+			dateInDailyLabel.setText(tomorrow);
+			
+			String[] str2 = tomorrow.split("-");
+			String result = str2[0]+"y"+str2[1]+"m"+str2[2]+"d";
+			
+			ObservableList<Daily> list2;
+			goal_detailInDailyColumn.setCellValueFactory(new PropertyValueFactory<Daily, String>("goal_detail"));
+			completeOrNotColumn.setCellValueFactory(new PropertyValueFactory<Daily, String>("complete"));
+			list2 = MySQLConnect.getDataDaily(result);
+			viewInDailyTabel.setItems(list2);
+						
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

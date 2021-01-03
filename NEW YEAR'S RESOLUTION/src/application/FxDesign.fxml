@@ -36,7 +36,7 @@
             </Button>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="dailyAnchorPane" layoutX="100.0" prefHeight="400.0" prefWidth="600.0" style="-fx-border-color: orange; -fx-background-color: white;" visible="false">
+      <AnchorPane fx:id="dailyAnchorPane" layoutX="100.0" prefHeight="400.0" prefWidth="600.0" style="-fx-border-color: orange; -fx-background-color: white;">
          <children>
             <Label fx:id="dateInDailyLabel" alignment="CENTER" layoutX="150.0" layoutY="30.0" prefHeight="50.0" prefWidth="300.0" style="-fx-border-color: orange;">
                <font>
@@ -44,17 +44,17 @@
                </font></Label>
             <TableView fx:id="viewInDailyTabel" layoutX="40.0" layoutY="110.0" prefHeight="270.0" prefWidth="520.0">
               <columns>
-                <TableColumn prefWidth="418.6667022705078" text="목표" />
-                <TableColumn prefWidth="99.99996948242188" text="완료여부" />
+                <TableColumn fx:id="goal_detailInDailyColumn" prefWidth="418.6667022705078" text="목표" />
+                <TableColumn fx:id="completeOrNotColumn" prefWidth="99.99996948242188" text="완료여부" />
               </columns>
             </TableView>
-            <Button layoutX="485.0" layoutY="138.0" mnemonicParsing="false" style="-fx-background-color: red;" text="미완료" textFill="WHITE" />
-            <ImageView fx:id="leftInDailyButton" fitHeight="50.0" fitWidth="52.0" layoutX="89.0" layoutY="30.0">
+            <Button fx:id="incomplete1Button" layoutX="485.0" layoutY="136.0" mnemonicParsing="false" onAction="#incomplete1Button" prefHeight="0.0" prefWidth="52.0" style="-fx-background-color: red;" text="미완료" textFill="WHITE" />
+            <ImageView fx:id="leftInDailyButton" fitHeight="50.0" fitWidth="52.0" layoutX="89.0" layoutY="30.0" onMouseClicked="#leftInDailyButton">
                <image>
                   <Image url="@../../img/arrow_pointing_left_80px.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="rigthtInDailyButton" fitHeight="50.0" fitWidth="52.0" layoutX="459.0" layoutY="30.0">
+            <ImageView fx:id="rigthtInDailyButton" fitHeight="50.0" fitWidth="52.0" layoutX="459.0" layoutY="30.0" onMouseClicked="#rightInDailyButton">
                <image>
                   <Image url="@../../img/arrow_80px.png" />
                </image>
@@ -91,7 +91,7 @@
             </ImageView>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="goalManageAnchorPane" layoutX="100.0" prefHeight="400.0" prefWidth="600.0" style="-fx-border-color: orange; -fx-background-color: white;">
+      <AnchorPane fx:id="goalManageAnchorPane" layoutX="100.0" prefHeight="400.0" prefWidth="600.0" style="-fx-border-color: orange; -fx-background-color: white;" visible="false">
          <children>
             <Label alignment="CENTER" layoutX="150.0" layoutY="30.0" prefHeight="50.0" prefWidth="300.0" style="-fx-border-color: orange;" text="목표관리" textAlignment="CENTER">
                <font>

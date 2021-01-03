@@ -49,4 +49,28 @@ public class MySQLConnect {
 		
 	}
 	
+public static ObservableList<Daily> getDataDaily(String date){
+		
+		Connection conn = connectDB();
+		ObservableList<Daily> list = FXCollections.observableArrayList();
+		
+		try {
+			String SQL = "SELECT * FROM " + date;
+			PreparedStatement ps = conn.prepareStatement(SQL);
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				
+				list.add(new Daily(rs.getString("goal_detail"),rs.getString("complete")));
+				
+			}
+		} catch(Exception e) {
+			System.out.println("goals" + e.getMessage());
+
+		}
+		
+		return list;
+		
+	}
+	
 }
