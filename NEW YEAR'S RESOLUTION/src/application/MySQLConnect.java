@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Button;
 
 public class MySQLConnect {
 
@@ -25,7 +26,7 @@ public class MySQLConnect {
 		}
 	}
 	
-	public static ObservableList<goals> getDataGoals(){
+	public static ObservableList<goals> getDataGoals(Button a, Button b, Button c,Button d,Button e,Button f,Button g,Button h,Button i){
 		
 		Connection conn = connectDB();
 		ObservableList<goals> list = FXCollections.observableArrayList();
@@ -34,14 +35,28 @@ public class MySQLConnect {
 			String SQL = "SELECT * FROM all_goals";
 			PreparedStatement ps = conn.prepareStatement(SQL);
 			ResultSet rs = ps.executeQuery();
+			int count = 0;
 			
 			while(rs.next()) {
 				
 				list.add(new goals(rs.getString("goal_detail"),rs.getString("simple_name"),rs.getString("registration_date"), Integer.parseInt(rs.getString("complete")),Integer.parseInt(rs.getString("incomplete"))));
+				count++;
+				System.out.println("목표 의 개수: "+count);
+				switch(count) {
+				case 1: a.setVisible(true); break;
+				case 2: a.setVisible(true); b.setVisible(true);break;
+				case 3: a.setVisible(true); b.setVisible(true); c.setVisible(true); break;
+				case 4: a.setVisible(true); b.setVisible(true); c.setVisible(true); d.setVisible(true); break;
+				case 5: a.setVisible(true); b.setVisible(true); c.setVisible(true); d.setVisible(true); e.setVisible(true); break;
+				case 6: a.setVisible(true); b.setVisible(true); c.setVisible(true); d.setVisible(true); e.setVisible(true); f.setVisible(true); break;
+				case 7: a.setVisible(true); b.setVisible(true); c.setVisible(true); d.setVisible(true); e.setVisible(true); f.setVisible(true); g.setVisible(true); break;
+				case 8: a.setVisible(true); b.setVisible(true); c.setVisible(true); d.setVisible(true); e.setVisible(true); f.setVisible(true); g.setVisible(true); h.setVisible(true); break;
+				case 9: a.setVisible(true); b.setVisible(true); c.setVisible(true); d.setVisible(true); e.setVisible(true); f.setVisible(true); g.setVisible(true); h.setVisible(true); i.setVisible(true); break;
 				
+				}
 			}
-		} catch(Exception e) {
-			System.out.println("goals" + e.getMessage());
+		} catch(Exception ie) {
+			System.out.println("goals" + ie.getMessage());
 
 		}
 		

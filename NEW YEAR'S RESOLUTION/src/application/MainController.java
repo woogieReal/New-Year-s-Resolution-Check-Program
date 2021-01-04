@@ -4,7 +4,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -141,7 +143,7 @@ public class MainController {
 		completeColumn.setCellValueFactory(new PropertyValueFactory<goals, Integer>("complete"));
 		incompleteColumn.setCellValueFactory(new PropertyValueFactory<goals, Integer>("incomplete"));
 		
-		list = MySQLConnect.getDataGoals();
+		list = MySQLConnect.getDataGoals(complete1Button, complete2Button, complete3Button, complete4Button, complete5Button, complete6Button, complete7Button, complete8Button, complete9Button);
 		viewInGoalManageTabel.setItems(list);
 		
 		
@@ -171,7 +173,7 @@ public class MainController {
 		completeColumn.setCellValueFactory(new PropertyValueFactory<goals, Integer>("complete"));
 		incompleteColumn.setCellValueFactory(new PropertyValueFactory<goals, Integer>("incomplete"));
 		
-		list = MySQLConnect.getDataGoals();
+		list = MySQLConnect.getDataGoals(complete1Button, complete2Button, complete3Button, complete4Button, complete5Button, complete6Button, complete7Button, complete8Button, complete9Button);
 		viewInGoalManageTabel.setItems(list);
 		
 		//일간화면 페이지
@@ -277,7 +279,7 @@ public class MainController {
 							String SQL3 = sb3.append("INSERT INTO 2021y0")
 									.append(i+"m0")
 									.append(j+"d VALUES(")
-									.append("'"+newGoal+"', ' ' )")
+									.append("'"+newGoal+"', '미완료' )")
 									.toString();
 							st.execute(SQL3);
 							System.out.println(+i+"월"+j+"일 성공");					
@@ -286,7 +288,7 @@ public class MainController {
 							String SQL3 = sb3.append("INSERT INTO 2021y0")
 									.append(i+"m")
 									.append(j+"d VALUES(")
-									.append("'"+newGoal+"', ' ')")
+									.append("'"+newGoal+"', '미완료')")
 									.toString();
 							st.execute(SQL3);
 							System.out.println(+i+"월"+j+"일 성공");		
@@ -297,7 +299,7 @@ public class MainController {
 							String SQL3 = sb3.append("INSERT INTO 2021y")
 									.append(i+"m0")
 									.append(j+"d VALUES(")
-									.append("'"+newGoal+"', ' ')")
+									.append("'"+newGoal+"', '미완료')")
 									.toString();
 							st.execute(SQL3);
 							System.out.println(+i+"월"+j+"일 성공");					
@@ -306,7 +308,7 @@ public class MainController {
 							String SQL3 = sb3.append("INSERT INTO 2021y")
 									.append(i+"m")
 									.append(j+"d VALUES(")
-									.append("'"+newGoal+"', ' ')")
+									.append("'"+newGoal+"', '미완료')")
 									.toString();
 							st.execute(SQL3);
 							System.out.println(+i+"월"+j+"일 성공");		
@@ -445,6 +447,48 @@ public class MainController {
 			String result = str2[0]+"y"+str2[1]+"m"+str2[2]+"d";
 			list = MySQLConnect.getDataWeekly(result);
 			viewInWeeklyTabel.setItems(list);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@SuppressWarnings("incomplete-switch")
+	public void complete1Button(ActionEvent event) {
+		try {
+			
+			String dateTmp = dateInDailyLabel.getText();
+			String[] str = dateTmp.split("-");
+			int year = Integer.parseInt(str[0]);
+			int month = Integer.parseInt(str[1]);
+			int dayOfMonth = Integer.parseInt(str[2]);
+			LocalDate today = LocalDate.of(year, month, dayOfMonth);
+			DayOfWeek dayOfWeek = today.getDayOfWeek();
+			System.out.println(dayOfWeek);
+			
+//			String date = str[0] + "y" + str[1] + "m" + str[2] + "d";
+			
+			String SQL = "SELECT simple_name FROM all_goals";
+			System.out.println(SQL);
+			rs = st.executeQuery(SQL);
+			ArrayList<String> arr = new ArrayList<String>();
+			arr.add("zero");
+			while(rs.next()) {
+				arr.add(rs.getString(1));
+			}
+			System.out.println(arr);
+			
+			switch(month) {
+				case 1: 
+					if(dayOfMonth >= 4 && dayOfMonth < 11) {
+						switch(dayOfWeek) {
+							case MONDAY:
+								String SQL2 = "INSERT INTO 2021y01m04dweek(mon) VALUES('" + arr.get(1) +"')";
+								st.executeUpdate(SQL2);
+						}
+					}
+			}
+			
 			
 		} catch (Exception e) {
 			e.printStackTrace();
