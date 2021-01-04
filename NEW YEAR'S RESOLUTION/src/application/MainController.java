@@ -50,6 +50,24 @@ public class MainController {
 	private ImageView leftInDailyButton;
 	@FXML
 	private ImageView rigthtInDailyButton;
+	@FXML
+    private Button complete1Button;
+    @FXML
+    private Button complete2Button;
+    @FXML
+    private Button complete3Button;
+    @FXML
+    private Button complete4Button;
+    @FXML
+    private Button complete5Button;
+    @FXML
+    private Button complete6Button;
+    @FXML
+    private Button complete7Button;
+    @FXML
+    private Button complete8Button;
+    @FXML
+    private Button complete9Button;
 
 	// weekly page
 	@FXML
@@ -259,7 +277,7 @@ public class MainController {
 							String SQL3 = sb3.append("INSERT INTO 2021y0")
 									.append(i+"m0")
 									.append(j+"d VALUES(")
-									.append("'"+newGoal+"', '미완료')")
+									.append("'"+newGoal+"', ' ' )")
 									.toString();
 							st.execute(SQL3);
 							System.out.println(+i+"월"+j+"일 성공");					
@@ -268,7 +286,7 @@ public class MainController {
 							String SQL3 = sb3.append("INSERT INTO 2021y0")
 									.append(i+"m")
 									.append(j+"d VALUES(")
-									.append("'"+newGoal+"', '미완료')")
+									.append("'"+newGoal+"', ' ')")
 									.toString();
 							st.execute(SQL3);
 							System.out.println(+i+"월"+j+"일 성공");		
@@ -279,7 +297,7 @@ public class MainController {
 							String SQL3 = sb3.append("INSERT INTO 2021y")
 									.append(i+"m0")
 									.append(j+"d VALUES(")
-									.append("'"+newGoal+"', '미완료')")
+									.append("'"+newGoal+"', ' ')")
 									.toString();
 							st.execute(SQL3);
 							System.out.println(+i+"월"+j+"일 성공");					
@@ -288,7 +306,7 @@ public class MainController {
 							String SQL3 = sb3.append("INSERT INTO 2021y")
 									.append(i+"m")
 									.append(j+"d VALUES(")
-									.append("'"+newGoal+"', '미완료')")
+									.append("'"+newGoal+"', ' ')")
 									.toString();
 							st.execute(SQL3);
 							System.out.println(+i+"월"+j+"일 성공");		
@@ -297,6 +315,7 @@ public class MainController {
 				}
 			}
 			
+			updateTable();
 			InfoTextField.setText("성공적으로 목표를 등록하였습니다.");
 			infoAnchorPane.setVisible(true);
 		} catch (Exception e) {
@@ -364,6 +383,40 @@ public class MainController {
 		}
 	}
 	
+	public void leftInWeeklyButton(MouseEvent event) {
+		try {
+			String thisWeek = dateInWeeklyLabel.getText();
+			String[] strtmp = thisWeek.split(" ~ ");
+			String strtmp2 = strtmp[0];
+			String[] str = strtmp2.split("-");
+			int year = Integer.parseInt(str[0]);
+			int month = Integer.parseInt(str[1]);
+			int dayOfMonth = Integer.parseInt(str[2]);
+			LocalDate thisWeekStart = LocalDate.of(year, month, dayOfMonth);
+			LocalDate lastWeekStart = thisWeekStart.minusDays(7);
+			LocalDate lastWeekEndDate = thisWeekStart.minusDays(1);
+			dateInWeeklyLabel.setText(lastWeekStart.toString() +" ~ "+ lastWeekEndDate.toString());
+			
+			ObservableList<Weekly> list;
+			monColumn.setCellValueFactory(new PropertyValueFactory<Weekly, String>("mon"));
+			tueColumn.setCellValueFactory(new PropertyValueFactory<Weekly, String>("tue"));
+			wedColumn.setCellValueFactory(new PropertyValueFactory<Weekly, String>("wed"));
+			thuColumn.setCellValueFactory(new PropertyValueFactory<Weekly, String>("thu"));
+			friColumn.setCellValueFactory(new PropertyValueFactory<Weekly, String>("fri"));
+			satColumn.setCellValueFactory(new PropertyValueFactory<Weekly, String>("sat"));
+			sunColumn.setCellValueFactory(new PropertyValueFactory<Weekly, String>("sun"));
+			
+			String nextWeek = lastWeekStart.toString();
+			String[] str2 = nextWeek.split("-");
+			String result = str2[0]+"y"+str2[1]+"m"+str2[2]+"d";
+			list = MySQLConnect.getDataWeekly(result);
+			viewInWeeklyTabel.setItems(list);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void rightInWeeklyButton(MouseEvent event) {
 		try {
 			String thisWeek = dateInWeeklyLabel.getText();
@@ -375,7 +428,7 @@ public class MainController {
 			int dayOfMonth = Integer.parseInt(str[2]);
 			LocalDate thisWeekStart = LocalDate.of(year, month, dayOfMonth);
 			LocalDate nextWeekStart = thisWeekStart.plusDays(7);
-			LocalDate nextWeekEndDate = thisWeekStart.plusDays(14);
+			LocalDate nextWeekEndDate = thisWeekStart.plusDays(13);
 			dateInWeeklyLabel.setText(nextWeekStart.toString() +" ~ "+ nextWeekEndDate.toString());
 			
 			ObservableList<Weekly> list;

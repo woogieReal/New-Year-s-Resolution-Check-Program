@@ -4,12 +4,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 
-public class CreateTable365 {
-	
+public class DropTable365 {
+
 	static Connection con;
 	static Statement st;
 	
-	public CreateTable365() {
+	public DropTable365() {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			con = DriverManager.getConnection(
@@ -21,53 +21,52 @@ public class CreateTable365 {
 		}
 	}
 	
-	public static void CreateTable() {
+	public static void dropTable() {
 		
 		try {
 			for(int i = 1; i <= 12; i++) {
 				for(int j = 1; j <= 31; j++ ) {
 					if(i <= 9) {
 						if(j <= 9) {
-							StringBuilder sb = new StringBuilder();
-							String SQL = sb.append("CREATE TABLE 2021y0")
+							StringBuilder sb3 = new StringBuilder();
+							String SQL3 = sb3.append("DROP TABLE 2021y0")
 									.append(i+"m0")
-									.append(j+"d (goal_detail varchar(40) not null, complete varchar(5))")
+									.append(j+"d")
 									.toString();
-							st.execute(SQL);
+							st.execute(SQL3);
 							System.out.println(+i+"월"+j+"일 성공");					
 						} else {
-							StringBuilder sb = new StringBuilder();
-							String SQL = sb.append("CREATE TABLE 2021y0")
+							StringBuilder sb3 = new StringBuilder();
+							String SQL3 = sb3.append("DROP TABLE 2021y0")
 									.append(i+"m")
-									.append(j+"d (goal_detail varchar(40) not null, complete varchar(5))")
+									.append(j+"d")
 									.toString();
-							st.execute(SQL);
+							st.execute(SQL3);
 							System.out.println(+i+"월"+j+"일 성공");		
 						}
 					} else {
 						if(j <= 9) {
-							StringBuilder sb = new StringBuilder();
-							String SQL = sb.append("CREATE TABLE 2021y")
+							StringBuilder sb3 = new StringBuilder();
+							String SQL3 = sb3.append("DROP TABLE 2021y")
 									.append(i+"m0")
-									.append(j+"d (goal_detail varchar(40) not null, complete varchar(5))")
+									.append(j+"d")
 									.toString();
-							st.execute(SQL);
+							st.execute(SQL3);
 							System.out.println(+i+"월"+j+"일 성공");					
 						} else {
-							StringBuilder sb = new StringBuilder();
-							String SQL = sb.append("CREATE TABLE 2021y")
+							StringBuilder sb3 = new StringBuilder();
+							String SQL3 = sb3.append("DROP TABLE 2021y")
 									.append(i+"m")
-									.append(j+"d (goal_detail varchar(40) not null, complete varchar(5))")
+									.append(j+"d")
 									.toString();
-							st.execute(SQL);
+							st.execute(SQL3);
 							System.out.println(+i+"월"+j+"일 성공");		
 						}
 					}
 				}
 			}
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
 }
