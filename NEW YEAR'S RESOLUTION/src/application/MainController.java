@@ -47,8 +47,6 @@ public class MainController {
 	@FXML
 	private TableColumn<Daily, String> completeOrNotColumn;
 	@FXML
-	private Button incomplete1Button;
-	@FXML
 	private ImageView leftInDailyButton;
 	@FXML
 	private ImageView rigthtInDailyButton;
@@ -315,16 +313,6 @@ public class MainController {
 		}
 	}
 	
-	public void incomplete1Button(ActionEvent event) {
-		try {
-			incomplete1Button.setText("완료");
-			incomplete1Button.setStyle("-fx-background-color: blue");
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
 	public void leftInDailyButton(MouseEvent event) {
 		try {
 			String today = dateInDailyLabel.getText();
@@ -369,6 +357,7 @@ public class MainController {
 			completeOrNotColumn.setCellValueFactory(new PropertyValueFactory<Daily, String>("complete"));
 			list2 = MySQLConnect.getDataDaily(result);
 			viewInDailyTabel.setItems(list2);
+
 						
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -377,24 +366,33 @@ public class MainController {
 	
 	public void rightInWeeklyButton(MouseEvent event) {
 		try {
-			String thisWeekStart = dateInWeeklyLabel.getText();
-			String[] str = thisWeekStart.split("-");
+			String thisWeek = dateInWeeklyLabel.getText();
+			String[] strtmp = thisWeek.split(" ~ ");
+			String strtmp2 = strtmp[0];
+			String[] str = strtmp2.split("-");
 			int year = Integer.parseInt(str[0]);
 			int month = Integer.parseInt(str[1]);
 			int dayOfMonth = Integer.parseInt(str[2]);
-			LocalDate thisWeekStart2 = LocalDate.of(year, month, dayOfMonth);
-			String nextWeekStart = thisWeekStart2.plusDays(7).toString();
-			dateInWeeklyLabel.setText(nextWeekStart);
+			LocalDate thisWeekStart = LocalDate.of(year, month, dayOfMonth);
+			LocalDate nextWeekStart = thisWeekStart.plusDays(7);
+			LocalDate nextWeekEndDate = thisWeekStart.plusDays(14);
+			dateInWeeklyLabel.setText(nextWeekStart.toString() +" ~ "+ nextWeekEndDate.toString());
 			
-//			String[] str2 = tomorrow.split("-");
-//			String result = str2[0]+"y"+str2[1]+"m"+str2[2]+"d";
-//			
-//			ObservableList<Daily> list2;
-//			goal_detailInDailyColumn.setCellValueFactory(new PropertyValueFactory<Daily, String>("goal_detail"));
-//			completeOrNotColumn.setCellValueFactory(new PropertyValueFactory<Daily, String>("complete"));
-//			list2 = MySQLConnect.getDataDaily(result);
-//			viewInDailyTabel.setItems(list2);
-						
+			ObservableList<Weekly> list;
+			monColumn.setCellValueFactory(new PropertyValueFactory<Weekly, String>("mon"));
+			tueColumn.setCellValueFactory(new PropertyValueFactory<Weekly, String>("tue"));
+			wedColumn.setCellValueFactory(new PropertyValueFactory<Weekly, String>("wed"));
+			thuColumn.setCellValueFactory(new PropertyValueFactory<Weekly, String>("thu"));
+			friColumn.setCellValueFactory(new PropertyValueFactory<Weekly, String>("fri"));
+			satColumn.setCellValueFactory(new PropertyValueFactory<Weekly, String>("sat"));
+			sunColumn.setCellValueFactory(new PropertyValueFactory<Weekly, String>("sun"));
+			
+			String nextWeek = nextWeekStart.toString();
+			String[] str2 = nextWeek.split("-");
+			String result = str2[0]+"y"+str2[1]+"m"+str2[2]+"d";
+			list = MySQLConnect.getDataWeekly(result);
+			viewInWeeklyTabel.setItems(list);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
