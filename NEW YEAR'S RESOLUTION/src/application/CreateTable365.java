@@ -31,7 +31,7 @@ public class CreateTable365 {
 							StringBuilder sb = new StringBuilder();
 							String SQL = sb.append("CREATE TABLE 2021y0")
 									.append(i+"m0")
-									.append(j+"d (goal_detail varchar(40) not null, complete varchar(5))")
+									.append(j+"d (num int not null auto_increment primary key, goal_detail varchar(40) not null, complete varchar(5))")
 									.toString();
 							st.execute(SQL);
 							System.out.println(+i+"월"+j+"일 성공");					
@@ -39,7 +39,7 @@ public class CreateTable365 {
 							StringBuilder sb = new StringBuilder();
 							String SQL = sb.append("CREATE TABLE 2021y0")
 									.append(i+"m")
-									.append(j+"d (goal_detail varchar(40) not null, complete varchar(5))")
+									.append(j+"d (num int not null auto_increment primary key, goal_detail varchar(40) not null, complete varchar(5))")
 									.toString();
 							st.execute(SQL);
 							System.out.println(+i+"월"+j+"일 성공");		
@@ -49,7 +49,7 @@ public class CreateTable365 {
 							StringBuilder sb = new StringBuilder();
 							String SQL = sb.append("CREATE TABLE 2021y")
 									.append(i+"m0")
-									.append(j+"d (goal_detail varchar(40) not null, complete varchar(5))")
+									.append(j+"d (num int not null auto_increment primary key, goal_detail varchar(40) not null, complete varchar(5))")
 									.toString();
 							st.execute(SQL);
 							System.out.println(+i+"월"+j+"일 성공");					
@@ -57,7 +57,7 @@ public class CreateTable365 {
 							StringBuilder sb = new StringBuilder();
 							String SQL = sb.append("CREATE TABLE 2021y")
 									.append(i+"m")
-									.append(j+"d (goal_detail varchar(40) not null, complete varchar(5))")
+									.append(j+"d (num int not null auto_increment primary key, goal_detail varchar(40) not null, complete varchar(5))")
 									.toString();
 							st.execute(SQL);
 							System.out.println(+i+"월"+j+"일 성공");		

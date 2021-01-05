@@ -44,6 +44,7 @@
                </font></Label>
             <TableView fx:id="viewInDailyTabel" layoutX="40.0" layoutY="110.0" prefHeight="270.0" prefWidth="520.0">
               <columns>
+                  <TableColumn fx:id="numColumn" prefWidth="75.0" text="num" visible="false" />
                 <TableColumn fx:id="goal_detailInDailyColumn" prefWidth="418.6667022705078" text="목표" />
                 <TableColumn fx:id="completeOrNotColumn" prefWidth="99.99996948242188" text="완료여부" />
               </columns>
@@ -108,11 +109,12 @@
             </Label>
             <TableView fx:id="viewInGoalManageTabel" layoutX="40.0" layoutY="110.0" prefHeight="270.0" prefWidth="520.0">
                <columns>
-                  <TableColumn fx:id="goal_detailColumn" prefWidth="200.0" text="목표" />
+                  <TableColumn fx:id="noColumn" prefWidth="30.0" text="no" visible="false" />
+                  <TableColumn fx:id="goal_detailColumn" prefWidth="226.6666717529297" text="목표" />
                   <TableColumn fx:id="simple_nameColumn" prefWidth="100.0" text="간단명" />
-                  <TableColumn fx:id="registration_dateColumn" prefWidth="100.0" text="등록일" />
-                  <TableColumn fx:id="completeColumn" prefWidth="60.0" text="완료" />
-                  <TableColumn fx:id="incompleteColumn" prefWidth="60.0" text="미완료" />
+                  <TableColumn fx:id="registration_dateColumn" prefWidth="90.0" text="등록일" />
+                  <TableColumn fx:id="completeColumn" prefWidth="50.0" text="완료" />
+                  <TableColumn fx:id="incompleteColumn" prefWidth="51.33331298828125" text="미완료" />
                </columns>
             </TableView>
          </children>

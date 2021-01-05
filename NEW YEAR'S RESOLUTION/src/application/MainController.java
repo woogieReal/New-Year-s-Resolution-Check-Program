@@ -45,6 +45,8 @@ public class MainController {
 	@FXML
 	private TableView<Daily> viewInDailyTabel;
 	@FXML
+	private TableColumn<Daily, Integer> numColumn;
+	@FXML
 	private TableColumn<Daily, String> goal_detailInDailyColumn;
 	@FXML
 	private TableColumn<Daily, String> completeOrNotColumn;
@@ -103,6 +105,8 @@ public class MainController {
 	@FXML
 	private TableView<goals> viewInGoalManageTabel;
 	@FXML
+    private TableColumn<goals, Integer> noColumn;
+	@FXML
     private TableColumn<goals, String> goal_detailColumn;
     @FXML
     private TableColumn<goals, String> simple_nameColumn;
@@ -137,6 +141,7 @@ public class MainController {
 	public void initialize() {
 		//목표관리 페이지
 		ObservableList<goals> list;	
+		noColumn.setCellValueFactory(new PropertyValueFactory<goals, Integer>("no"));
 		goal_detailColumn.setCellValueFactory(new PropertyValueFactory<goals, String>("goal_detail"));
 		simple_nameColumn.setCellValueFactory(new PropertyValueFactory<goals, String>("simple_name"));
 		registration_dateColumn.setCellValueFactory(new PropertyValueFactory<goals, String>("registration_date"));
@@ -154,6 +159,7 @@ public class MainController {
 		String result = str[0]+"y"+str[1]+"m"+str[2]+"d";
 		
 		ObservableList<Daily> list2;
+		numColumn.setCellValueFactory(new PropertyValueFactory<Daily, Integer>("num"));
 		goal_detailInDailyColumn.setCellValueFactory(new PropertyValueFactory<Daily, String>("goal_detail"));
 		completeOrNotColumn.setCellValueFactory(new PropertyValueFactory<Daily, String>("complete"));
 		list2 = MySQLConnect.getDataDaily(result);
@@ -161,12 +167,13 @@ public class MainController {
 		
 		WeeklyController.WeeklyTable(dateInWeeklyLabel, viewInWeeklyTabel, monColumn, tueColumn, wedColumn, thuColumn, friColumn, satColumn, sunColumn);
 		
+
 	}
 	
 	public void updateTable() {
 		//목표관리 페이지
 		ObservableList<goals> list;
-		
+		noColumn.setCellValueFactory(new PropertyValueFactory<goals, Integer>("no"));
 		goal_detailColumn.setCellValueFactory(new PropertyValueFactory<goals, String>("goal_detail"));
 		simple_nameColumn.setCellValueFactory(new PropertyValueFactory<goals, String>("simple_name"));
 		registration_dateColumn.setCellValueFactory(new PropertyValueFactory<goals, String>("registration_date"));
@@ -183,6 +190,7 @@ public class MainController {
 		String result = str[0]+"y"+str[1]+"m"+str[2]+"d";
 		
 		ObservableList<Daily> list2;
+		numColumn.setCellValueFactory(new PropertyValueFactory<Daily, Integer>("num"));
 		goal_detailInDailyColumn.setCellValueFactory(new PropertyValueFactory<Daily, String>("goal_detail"));
 		completeOrNotColumn.setCellValueFactory(new PropertyValueFactory<Daily, String>("complete"));
 		list2 = MySQLConnect.getDataDaily(result);
@@ -259,7 +267,7 @@ public class MainController {
 			int defaultIncomplete = 0;
 			
 			StringBuilder sb = new StringBuilder();
-			String SQL = sb.append("INSERT INTO all_goals VALUES(")
+			String SQL = sb.append("INSERT INTO all_goals(goal_detail, simple_name, registration_date, complete, incomplete) VALUES(")
 					.append("'"+newGoal+"',")
 					.append("'"+simpleName+"',")
 					.append("'"+today+"',")
@@ -278,7 +286,7 @@ public class MainController {
 							StringBuilder sb3 = new StringBuilder();
 							String SQL3 = sb3.append("INSERT INTO 2021y0")
 									.append(i+"m0")
-									.append(j+"d VALUES(")
+									.append(j+"d(goal_detail, complete) VALUES(")
 									.append("'"+newGoal+"', '미완료' )")
 									.toString();
 							st.execute(SQL3);
@@ -287,7 +295,7 @@ public class MainController {
 							StringBuilder sb3 = new StringBuilder();
 							String SQL3 = sb3.append("INSERT INTO 2021y0")
 									.append(i+"m")
-									.append(j+"d VALUES(")
+									.append(j+"d(goal_detail, complete) VALUES(")
 									.append("'"+newGoal+"', '미완료')")
 									.toString();
 							st.execute(SQL3);
@@ -298,7 +306,7 @@ public class MainController {
 							StringBuilder sb3 = new StringBuilder();
 							String SQL3 = sb3.append("INSERT INTO 2021y")
 									.append(i+"m0")
-									.append(j+"d VALUES(")
+									.append(j+"d(goal_detail, complete) VALUES(")
 									.append("'"+newGoal+"', '미완료')")
 									.toString();
 							st.execute(SQL3);
@@ -307,7 +315,7 @@ public class MainController {
 							StringBuilder sb3 = new StringBuilder();
 							String SQL3 = sb3.append("INSERT INTO 2021y")
 									.append(i+"m")
-									.append(j+"d VALUES(")
+									.append(j+"d(goal_detail, complete) VALUES(")
 									.append("'"+newGoal+"', '미완료')")
 									.toString();
 							st.execute(SQL3);

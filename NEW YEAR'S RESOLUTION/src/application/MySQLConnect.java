@@ -39,21 +39,23 @@ public class MySQLConnect {
 			
 			while(rs.next()) {
 				
-				list.add(new goals(rs.getString("goal_detail"),rs.getString("simple_name"),rs.getString("registration_date"), Integer.parseInt(rs.getString("complete")),Integer.parseInt(rs.getString("incomplete"))));
+				list.add(new goals(Integer.parseInt(rs.getString("no")),rs.getString("goal_detail"),rs.getString("simple_name"),rs.getString("registration_date"), Integer.parseInt(rs.getString("complete")),Integer.parseInt(rs.getString("incomplete"))));
 				count++;
 				System.out.println("목표 의 개수: "+count);
-				switch(count) {
-				case 1: a.setVisible(true); break;
-				case 2: a.setVisible(true); b.setVisible(true);break;
-				case 3: a.setVisible(true); b.setVisible(true); c.setVisible(true); break;
-				case 4: a.setVisible(true); b.setVisible(true); c.setVisible(true); d.setVisible(true); break;
-				case 5: a.setVisible(true); b.setVisible(true); c.setVisible(true); d.setVisible(true); e.setVisible(true); break;
-				case 6: a.setVisible(true); b.setVisible(true); c.setVisible(true); d.setVisible(true); e.setVisible(true); f.setVisible(true); break;
-				case 7: a.setVisible(true); b.setVisible(true); c.setVisible(true); d.setVisible(true); e.setVisible(true); f.setVisible(true); g.setVisible(true); break;
-				case 8: a.setVisible(true); b.setVisible(true); c.setVisible(true); d.setVisible(true); e.setVisible(true); f.setVisible(true); g.setVisible(true); h.setVisible(true); break;
-				case 9: a.setVisible(true); b.setVisible(true); c.setVisible(true); d.setVisible(true); e.setVisible(true); f.setVisible(true); g.setVisible(true); h.setVisible(true); i.setVisible(true); break;
 				
 				}
+			
+			switch(count) {
+			case 1: a.setVisible(true); break;
+			case 2: a.setVisible(true); b.setVisible(true);break;
+			case 3: a.setVisible(true); b.setVisible(true); c.setVisible(true); break;
+			case 4: a.setVisible(true); b.setVisible(true); c.setVisible(true); d.setVisible(true); break;
+			case 5: a.setVisible(true); b.setVisible(true); c.setVisible(true); d.setVisible(true); e.setVisible(true); break;
+			case 6: a.setVisible(true); b.setVisible(true); c.setVisible(true); d.setVisible(true); e.setVisible(true); f.setVisible(true); break;
+			case 7: a.setVisible(true); b.setVisible(true); c.setVisible(true); d.setVisible(true); e.setVisible(true); f.setVisible(true); g.setVisible(true); break;
+			case 8: a.setVisible(true); b.setVisible(true); c.setVisible(true); d.setVisible(true); e.setVisible(true); f.setVisible(true); g.setVisible(true); h.setVisible(true); break;
+			case 9: a.setVisible(true); b.setVisible(true); c.setVisible(true); d.setVisible(true); e.setVisible(true); f.setVisible(true); g.setVisible(true); h.setVisible(true); i.setVisible(true); break;
+			
 			}
 		} catch(Exception ie) {
 			System.out.println("goals" + ie.getMessage());
@@ -76,7 +78,7 @@ public class MySQLConnect {
 			
 			while(rs.next()) {
 				
-				list.add(new Daily(rs.getString("goal_detail"),rs.getString("complete")));
+				list.add(new Daily(Integer.parseInt(rs.getString("num")),rs.getString("goal_detail"),rs.getString("complete")));
 				
 			}
 		} catch(Exception e) {
