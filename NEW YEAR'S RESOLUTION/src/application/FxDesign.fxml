@@ -60,7 +60,7 @@
                </image>
             </ImageView>
             <Button fx:id="complete1Button" layoutX="525.0" layoutY="136.0" mnemonicParsing="false" onAction="#complete1Button" prefWidth="30.0" style="-fx-background-color: purple;" text="O" textFill="WHITE" visible="false" />
-            <Button fx:id="complete2Button" layoutX="525.0" layoutY="160.0" mnemonicParsing="false" prefWidth="30.0" style="-fx-background-color: purple;" text="O" textFill="WHITE" visible="false" />
+            <Button fx:id="complete2Button" layoutX="525.0" layoutY="160.0" mnemonicParsing="false" onAction="#complete2Button" prefWidth="30.0" style="-fx-background-color: purple;" text="O" textFill="WHITE" visible="false" />
             <Button fx:id="complete3Button" layoutX="525.0" layoutY="184.0" mnemonicParsing="false" prefWidth="30.0" style="-fx-background-color: purple;" text="O" textFill="WHITE" visible="false" />
             <Button fx:id="complete4Button" layoutX="525.0" layoutY="208.0" mnemonicParsing="false" prefWidth="30.0" style="-fx-background-color: purple;" text="O" textFill="WHITE" visible="false" />
             <Button fx:id="complete5Button" layoutX="525.0" layoutY="232.0" mnemonicParsing="false" prefWidth="30.0" style="-fx-background-color: purple;" text="O" textFill="WHITE" visible="false" />
@@ -70,7 +70,7 @@
             <Button fx:id="complete9Button" layoutX="525.0" layoutY="328.0" mnemonicParsing="false" prefWidth="30.0" style="-fx-background-color: purple;" text="O" textFill="WHITE" visible="false" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="weeklyAnchorPane" layoutX="100.0" prefHeight="400.0" prefWidth="600.0" style="-fx-border-color: orange; -fx-background-color: white;" visible="false">
+      <AnchorPane fx:id="weeklyAnchorPane" layoutX="100.0" prefHeight="400.0" prefWidth="600.0" style="-fx-border-color: orange; -fx-background-color: white;">
          <children>
             <Label fx:id="dateInWeeklyLabel" alignment="CENTER" layoutX="150.0" layoutY="30.0" prefHeight="50.0" prefWidth="300.0" style="-fx-border-color: orange;" textAlignment="CENTER">
                <font>
@@ -79,6 +79,7 @@
             </Label>
             <TableView fx:id="viewInWeeklyTabel" layoutX="40.0" layoutY="110.0" prefHeight="270.0" prefWidth="520.0">
                <columns>
+                  <TableColumn fx:id="noInWeeklyColumn" prefWidth="75.0" text="no" visible="false" />
                   <TableColumn fx:id="monColumn" prefWidth="74.28571428571429" text="월" />
                   <TableColumn fx:id="tueColumn" prefWidth="74.28571428571429" text="화" />
                   <TableColumn fx:id="wedColumn" prefWidth="74.28571428571429" text="수" />

@@ -102,7 +102,7 @@ public static ObservableList<Weekly> getDataWeekly(String date){
 			
 			while(rs.next()) {
 				
-				list.add(new Weekly(rs.getString("mon"),rs.getString("tue"),rs.getString("wed"),rs.getString("thu"),rs.getString("fri"),rs.getString("sat"),rs.getString("sun")));
+				list.add(new Weekly(Integer.parseInt(rs.getString("no")),rs.getString("mon"),rs.getString("tue"),rs.getString("wed"),rs.getString("thu"),rs.getString("fri"),rs.getString("sat"),rs.getString("sun")));
 				
 			}
 		} catch(Exception e) {

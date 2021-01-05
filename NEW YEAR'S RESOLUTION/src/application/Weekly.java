@@ -2,10 +2,12 @@ package application;
 
 public class Weekly {
 
+	int no;
 	String mon, tue, wed, thu, fri, sat, sun;
-
-	public Weekly(String mon, String tue, String wed, String thu, String fri, String sat, String sun) {
+	
+	public Weekly(int no, String mon, String tue, String wed, String thu, String fri, String sat, String sun) {
 		super();
+		this.no = no;
 		this.mon = mon;
 		this.tue = tue;
 		this.wed = wed;
@@ -13,6 +15,14 @@ public class Weekly {
 		this.fri = fri;
 		this.sat = sat;
 		this.sun = sun;
+	}
+
+	public int getNo() {
+		return no;
+	}
+
+	public void setNo(int no) {
+		this.no = no;
 	}
 
 	public String getMon() {
@@ -70,6 +80,8 @@ public class Weekly {
 	public void setSun(String sun) {
 		this.sun = sun;
 	}
+
+	
 	
 	
 	

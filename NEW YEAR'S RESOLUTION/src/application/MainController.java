@@ -4,9 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -80,6 +78,8 @@ public class MainController {
 	private Label dateInWeeklyLabel;
 	@FXML
 	private TableView<Weekly> viewInWeeklyTabel;
+	@FXML
+    private TableColumn<Weekly, Integer> noInWeeklyColumn;
 	@FXML
     private TableColumn<Weekly, String> monColumn;
     @FXML
@@ -165,7 +165,8 @@ public class MainController {
 		list2 = MySQLConnect.getDataDaily(result);
 		viewInDailyTabel.setItems(list2);
 		
-		WeeklyController.WeeklyTable(dateInWeeklyLabel, viewInWeeklyTabel, monColumn, tueColumn, wedColumn, thuColumn, friColumn, satColumn, sunColumn);
+		//주간 페이지
+		WeeklyController.WeeklyTable(dateInWeeklyLabel, viewInWeeklyTabel, noInWeeklyColumn ,monColumn, tueColumn, wedColumn, thuColumn, friColumn, satColumn, sunColumn);
 		
 
 	}
@@ -195,6 +196,9 @@ public class MainController {
 		completeOrNotColumn.setCellValueFactory(new PropertyValueFactory<Daily, String>("complete"));
 		list2 = MySQLConnect.getDataDaily(result);
 		viewInDailyTabel.setItems(list2);
+		
+		//주간 페이지
+		WeeklyController.WeeklyTable(dateInWeeklyLabel, viewInWeeklyTabel, noInWeeklyColumn ,monColumn, tueColumn, wedColumn, thuColumn, friColumn, satColumn, sunColumn);
 		
 	}
 	
@@ -461,48 +465,24 @@ public class MainController {
 		}
 	}
 	
-	@SuppressWarnings("incomplete-switch")
 	public void complete1Button(ActionEvent event) {
-		try {
-			
-			String dateTmp = dateInDailyLabel.getText();
-			String[] str = dateTmp.split("-");
-			int year = Integer.parseInt(str[0]);
-			int month = Integer.parseInt(str[1]);
-			int dayOfMonth = Integer.parseInt(str[2]);
-			LocalDate today = LocalDate.of(year, month, dayOfMonth);
-			DayOfWeek dayOfWeek = today.getDayOfWeek();
-			System.out.println(dayOfWeek);
-			
-//			String date = str[0] + "y" + str[1] + "m" + str[2] + "d";
-			
-			String SQL = "SELECT simple_name FROM all_goals";
-			System.out.println(SQL);
-			rs = st.executeQuery(SQL);
-			ArrayList<String> arr = new ArrayList<String>();
-			arr.add("zero");
-			while(rs.next()) {
-				arr.add(rs.getString(1));
-			}
-			System.out.println(arr);
-			
-			switch(month) {
-				case 1: 
-					if(dayOfMonth >= 4 && dayOfMonth < 11) {
-						switch(dayOfWeek) {
-							case MONDAY:
-								String SQL2 = "INSERT INTO 2021y01m04dweek(mon) VALUES('" + arr.get(1) +"')";
-								st.executeUpdate(SQL2);
-						}
-					}
-			}
-			
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		
+		String dateTmp = dateInDailyLabel.getText();
+		int number = 1;
+		Complete com = new Complete();
+		com.complete(dateTmp, number);
+		updateTable();
+
 	}
 	
+	public void complete2Button(ActionEvent event) {
+		
+		String dateTmp = dateInDailyLabel.getText();
+		int number = 2;
+		Complete com = new Complete();
+		com.complete(dateTmp, number);
+		updateTable();
 
-	
+
+	}
 }

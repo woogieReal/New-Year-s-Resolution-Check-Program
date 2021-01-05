@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 public class prac {
 
+	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		String newGoal = "이거 잘되나";
 		String simpleName = "이거";

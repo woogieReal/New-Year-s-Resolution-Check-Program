@@ -10,10 +10,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 public class WeeklyController {
 
-	public static void WeeklyTable(Label label, TableView<Weekly> tableView, TableColumn<Weekly, String> a, TableColumn<Weekly, String> b, TableColumn<Weekly, String> c,TableColumn<Weekly, String> d, TableColumn<Weekly, String> e, TableColumn<Weekly, String> f,TableColumn<Weekly, String> g) {
+	public static void WeeklyTable(Label label, TableView<Weekly> tableView, TableColumn<Weekly, Integer> n ,TableColumn<Weekly, String> a, TableColumn<Weekly, String> b, TableColumn<Weekly, String> c,TableColumn<Weekly, String> d, TableColumn<Weekly, String> e, TableColumn<Weekly, String> f,TableColumn<Weekly, String> g) {
 		
 		//주간화면 페이지
 				ObservableList<Weekly> list;
+				n.setCellValueFactory(new PropertyValueFactory<Weekly, Integer>("no"));
 				a.setCellValueFactory(new PropertyValueFactory<Weekly, String>("mon"));
 				b.setCellValueFactory(new PropertyValueFactory<Weekly, String>("tue"));
 				c.setCellValueFactory(new PropertyValueFactory<Weekly, String>("wed"));
