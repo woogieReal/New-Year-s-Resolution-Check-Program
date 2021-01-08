@@ -56,7 +56,7 @@ public class Incomplete {
 					st.executeUpdate(SQL4);
 					System.out.println("update 종료 성공");
 					MainController main = new MainController();
-					main.updateTable();
+					main.initialize();
 				}
 			}
 		} catch (SQLException e) {

@@ -181,45 +181,6 @@ public class MainController {
 		
 	}
 	
-	public void updateTable() {
-		//목표관리 페이지
-		ObservableList<goals> list;
-		noColumn.setCellValueFactory(new PropertyValueFactory<goals, Integer>("no"));
-		goal_detailColumn.setCellValueFactory(new PropertyValueFactory<goals, String>("goal_detail"));
-		simple_nameColumn.setCellValueFactory(new PropertyValueFactory<goals, String>("simple_name"));
-		registration_dateColumn.setCellValueFactory(new PropertyValueFactory<goals, String>("registration_date"));
-		completeColumn.setCellValueFactory(new PropertyValueFactory<goals, Integer>("complete"));
-		incompleteColumn.setCellValueFactory(new PropertyValueFactory<goals, Integer>("incomplete"));
-		rateColumn.setCellValueFactory(new PropertyValueFactory<goals, Integer>("rate"));
-		
-		list = MySQLConnect.getDataGoals(complete1Button, complete2Button, complete3Button, complete4Button, complete5Button, complete6Button, complete7Button, complete8Button, complete9Button);
-		viewInGoalManageTabel.setItems(list);
-		
-		//일간화면 페이지
-		String today = LocalDate.now().toString();
-		dateInDailyLabel.setText(today);
-		String[] str = today.split("-");
-		String result = str[0]+"y"+str[1]+"m"+str[2]+"d";
-		
-		ObservableList<Daily> list2;
-		numColumn.setCellValueFactory(new PropertyValueFactory<Daily, Integer>("num"));
-		goal_detailInDailyColumn.setCellValueFactory(new PropertyValueFactory<Daily, String>("goal_detail"));
-		completeOrNotColumn.setCellValueFactory(new PropertyValueFactory<Daily, String>("complete"));
-		list2 = MySQLConnect.getDataDaily(result);
-		viewInDailyTabel.setItems(list2);
-		
-		//주간 페이지
-		WeeklyController.WeeklyTable(dateInWeeklyLabel, viewInWeeklyTabel, noInWeeklyColumn ,monColumn, tueColumn, wedColumn, thuColumn, friColumn, satColumn, sunColumn);
-		
-		//incomplete처리
-		Incomplete incomp = new Incomplete();
-		incomp.incomplete();
-		
-		//달성률처리
-		Rate rat = new Rate();
-		rat.rate();
-	}
-	
 	public MainController() {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
@@ -257,7 +218,7 @@ public class MainController {
 			goalManageAnchorPane.setVisible(true);
 			weeklyAnchorPane.setVisible(false);
 			dailyAnchorPane.setVisible(false);
-			updateTable();
+			initialize();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -304,7 +265,7 @@ public class MainController {
 			st.executeUpdate(SQL);
 			newGoalTextField.setText("");
 			simpleNameTextField.setText("");
-			updateTable();
+			initialize();
 			
 			for(int i = 1; i <= 12; i++) {
 				for(int j = 1; j <= 31; j++ ) {
@@ -414,7 +375,7 @@ public class MainController {
 			}
 			
 			
-			updateTable();
+			initialize();
 			
 			InfoTextField.setText("성공적으로 목표를 등록하였습니다.");
 		} catch (Exception e) {
@@ -451,6 +412,38 @@ public class MainController {
 			completeOrNotColumn.setCellValueFactory(new PropertyValueFactory<Daily, String>("complete"));
 			list2 = MySQLConnect.getDataDaily(result);
 			viewInDailyTabel.setItems(list2);
+			
+			LocalDate realToday = LocalDate.now();
+			int realMonth = realToday.getMonthValue();
+			int realDay = realToday.getDayOfMonth();
+			LocalDate fakeYesterday = today2.minusDays(1);
+			int fakeMonth = fakeYesterday.getMonthValue();
+			int fakeDay = fakeYesterday.getDayOfMonth();
+			
+			if(realMonth >= fakeMonth) {
+				if(realDay > fakeDay) {
+					String SQL = "SELECT no FROM all_goals";
+					int cnt = 0;
+					rs = st.executeQuery(SQL);
+					while(rs.next()) {
+						cnt++;
+					}
+					switch(cnt) {
+					case 1: complete1Button.setVisible(false); break;
+					case 2: complete1Button.setVisible(false); complete2Button.setVisible(false);break;
+					case 3: complete1Button.setVisible(false); complete2Button.setVisible(false); complete3Button.setVisible(false); break;
+					case 4: complete1Button.setVisible(false); complete2Button.setVisible(false); complete3Button.setVisible(false); complete4Button.setVisible(false); break;
+					case 5: complete1Button.setVisible(false); complete2Button.setVisible(false); complete3Button.setVisible(false); complete4Button.setVisible(false); complete5Button.setVisible(false); break;
+					case 6: complete1Button.setVisible(false); complete2Button.setVisible(false); complete3Button.setVisible(false); complete4Button.setVisible(false); complete5Button.setVisible(false); complete6Button.setVisible(false); break;
+					case 7: complete1Button.setVisible(false); complete2Button.setVisible(false); complete3Button.setVisible(false); complete4Button.setVisible(false); complete5Button.setVisible(false); complete6Button.setVisible(false); complete7Button.setVisible(false); break;
+					case 8: complete1Button.setVisible(false); complete2Button.setVisible(false); complete3Button.setVisible(false); complete4Button.setVisible(false); complete5Button.setVisible(false); complete6Button.setVisible(false); complete7Button.setVisible(false); complete8Button.setVisible(false); break;
+					case 9: complete1Button.setVisible(false); complete2Button.setVisible(false); complete3Button.setVisible(false); complete4Button.setVisible(false); complete5Button.setVisible(false); complete6Button.setVisible(false); complete7Button.setVisible(false); complete8Button.setVisible(false); complete9Button.setVisible(false); break;		
+					}
+					
+				}
+			}
+			
+			
 						
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -477,6 +470,42 @@ public class MainController {
 			list2 = MySQLConnect.getDataDaily(result);
 			viewInDailyTabel.setItems(list2);
 
+			String SQL = "SELECT no FROM all_goals";
+			int cnt = 0;
+			rs = st.executeQuery(SQL);
+			while(rs.next()) {
+				cnt++;
+			}
+			LocalDate realToday = LocalDate.now();
+			LocalDate fakeTomorrow = today2.plusDays(1);
+			
+			if(!realToday.equals(fakeTomorrow)) {
+				switch(cnt) {
+				case 1: complete1Button.setVisible(false); break;
+				case 2: complete1Button.setVisible(false); complete2Button.setVisible(false);break;
+				case 3: complete1Button.setVisible(false); complete2Button.setVisible(false); complete3Button.setVisible(false); break;
+				case 4: complete1Button.setVisible(false); complete2Button.setVisible(false); complete3Button.setVisible(false); complete4Button.setVisible(false); break;
+				case 5: complete1Button.setVisible(false); complete2Button.setVisible(false); complete3Button.setVisible(false); complete4Button.setVisible(false); complete5Button.setVisible(false); break;
+				case 6: complete1Button.setVisible(false); complete2Button.setVisible(false); complete3Button.setVisible(false); complete4Button.setVisible(false); complete5Button.setVisible(false); complete6Button.setVisible(false); break;
+				case 7: complete1Button.setVisible(false); complete2Button.setVisible(false); complete3Button.setVisible(false); complete4Button.setVisible(false); complete5Button.setVisible(false); complete6Button.setVisible(false); complete7Button.setVisible(false); break;
+				case 8: complete1Button.setVisible(false); complete2Button.setVisible(false); complete3Button.setVisible(false); complete4Button.setVisible(false); complete5Button.setVisible(false); complete6Button.setVisible(false); complete7Button.setVisible(false); complete8Button.setVisible(false); break;
+				case 9: complete1Button.setVisible(false); complete2Button.setVisible(false); complete3Button.setVisible(false); complete4Button.setVisible(false); complete5Button.setVisible(false); complete6Button.setVisible(false); complete7Button.setVisible(false); complete8Button.setVisible(false); complete9Button.setVisible(false); break;		
+				}
+			} else if(realToday.equals(fakeTomorrow)){
+				switch(cnt) {
+				case 1: complete1Button.setVisible(true); break;
+				case 2: complete1Button.setVisible(true); complete2Button.setVisible(true);break;
+				case 3: complete1Button.setVisible(true); complete2Button.setVisible(true); complete3Button.setVisible(true); break;
+				case 4: complete1Button.setVisible(true); complete2Button.setVisible(true); complete3Button.setVisible(true); complete4Button.setVisible(true); break;
+				case 5: complete1Button.setVisible(true); complete2Button.setVisible(true); complete3Button.setVisible(true); complete4Button.setVisible(true); complete5Button.setVisible(true); break;
+				case 6: complete1Button.setVisible(true); complete2Button.setVisible(true); complete3Button.setVisible(true); complete4Button.setVisible(true); complete5Button.setVisible(true); complete6Button.setVisible(true); break;
+				case 7: complete1Button.setVisible(true); complete2Button.setVisible(true); complete3Button.setVisible(true); complete4Button.setVisible(true); complete5Button.setVisible(true); complete6Button.setVisible(true); complete7Button.setVisible(true); break;
+				case 8: complete1Button.setVisible(true); complete2Button.setVisible(true); complete3Button.setVisible(true); complete4Button.setVisible(true); complete5Button.setVisible(true); complete6Button.setVisible(true); complete7Button.setVisible(true); complete8Button.setVisible(true); break;
+				case 9: complete1Button.setVisible(true); complete2Button.setVisible(true); complete3Button.setVisible(true); complete4Button.setVisible(true); complete5Button.setVisible(true); complete6Button.setVisible(true); complete7Button.setVisible(true); complete8Button.setVisible(true); complete9Button.setVisible(true); break;		
+				}
+			}
+
+			
 						
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -556,62 +585,62 @@ public class MainController {
 		int number = 1;
 		Complete com = new Complete();
 		com.complete(dateTmp, number);
-		updateTable();
+		initialize();
 	}
 	public void complete2Button(ActionEvent event) {
 		String dateTmp = dateInDailyLabel.getText();
 		int number = 2;
 		Complete com = new Complete();
 		com.complete(dateTmp, number);
-		updateTable();
+		initialize();
 	}
 	public void complete3Button(ActionEvent event) {
 		String dateTmp = dateInDailyLabel.getText();
 		int number = 3;
 		Complete com = new Complete();
 		com.complete(dateTmp, number);
-		updateTable();
+		initialize();
 	}
 	public void complete4Button(ActionEvent event) {
 		String dateTmp = dateInDailyLabel.getText();
 		int number = 4;
 		Complete com = new Complete();
 		com.complete(dateTmp, number);
-		updateTable();
+		initialize();
 	}
 	public void complete5Button(ActionEvent event) {
 		String dateTmp = dateInDailyLabel.getText();
 		int number = 5;
 		Complete com = new Complete();
 		com.complete(dateTmp, number);
-		updateTable();
+		initialize();
 	}
 	public void complete6Button(ActionEvent event) {
 		String dateTmp = dateInDailyLabel.getText();
 		int number = 6;
 		Complete com = new Complete();
 		com.complete(dateTmp, number);
-		updateTable();
+		initialize();
 	}
 	public void complete7Button(ActionEvent event) {
 		String dateTmp = dateInDailyLabel.getText();
 		int number = 7;
 		Complete com = new Complete();
 		com.complete(dateTmp, number);
-		updateTable();
+		initialize();
 	}
 	public void complete8Button(ActionEvent event) {
 		String dateTmp = dateInDailyLabel.getText();
 		int number = 8;
 		Complete com = new Complete();
 		com.complete(dateTmp, number);
-		updateTable();
+		initialize();
 	}
 	public void complete9Button(ActionEvent event) {
 		String dateTmp = dateInDailyLabel.getText();
 		int number = 9;
 		Complete com = new Complete();
 		com.complete(dateTmp, number);
-		updateTable();
+		initialize();
 	}
 }

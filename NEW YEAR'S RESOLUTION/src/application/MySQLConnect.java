@@ -54,8 +54,7 @@ public class MySQLConnect {
 			case 6: a.setVisible(true); b.setVisible(true); c.setVisible(true); d.setVisible(true); e.setVisible(true); f.setVisible(true); break;
 			case 7: a.setVisible(true); b.setVisible(true); c.setVisible(true); d.setVisible(true); e.setVisible(true); f.setVisible(true); g.setVisible(true); break;
 			case 8: a.setVisible(true); b.setVisible(true); c.setVisible(true); d.setVisible(true); e.setVisible(true); f.setVisible(true); g.setVisible(true); h.setVisible(true); break;
-			case 9: a.setVisible(true); b.setVisible(true); c.setVisible(true); d.setVisible(true); e.setVisible(true); f.setVisible(true); g.setVisible(true); h.setVisible(true); i.setVisible(true); break;
-			
+			case 9: a.setVisible(true); b.setVisible(true); c.setVisible(true); d.setVisible(true); e.setVisible(true); f.setVisible(true); g.setVisible(true); h.setVisible(true); i.setVisible(true); break;		
 			}
 		} catch(Exception ie) {
 			System.out.println("goals" + ie.getMessage());
