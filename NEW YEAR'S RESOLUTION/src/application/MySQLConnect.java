@@ -39,7 +39,7 @@ public class MySQLConnect {
 			
 			while(rs.next()) {
 				
-				list.add(new goals(Integer.parseInt(rs.getString("no")),rs.getString("goal_detail"),rs.getString("simple_name"),rs.getString("registration_date"), Integer.parseInt(rs.getString("complete")),Integer.parseInt(rs.getString("incomplete"))));
+				list.add(new goals(Integer.parseInt(rs.getString("no")),rs.getString("goal_detail"),rs.getString("simple_name"),rs.getString("registration_date"), Integer.parseInt(rs.getString("complete")),Integer.parseInt(rs.getString("incomplete")),Integer.parseInt(rs.getString("rate"))));
 				count++;
 				System.out.println("목표 의 개수: "+count);
 				
@@ -90,7 +90,7 @@ public class MySQLConnect {
 		
 	}
 	
-public static ObservableList<Weekly> getDataWeekly(String date){
+	public static ObservableList<Weekly> getDataWeekly(String date){
 		
 		Connection conn = connectDB();
 		ObservableList<Weekly> list = FXCollections.observableArrayList();

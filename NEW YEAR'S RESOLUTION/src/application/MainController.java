@@ -3,10 +3,8 @@ package application;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -118,6 +116,8 @@ public class MainController {
     private TableColumn<goals, Integer> completeColumn;
     @FXML
     private TableColumn<goals, Integer> incompleteColumn;
+    @FXML
+    private TableColumn<goals, Integer> rateColumn;
 
 
 	// goal add page
@@ -149,6 +149,7 @@ public class MainController {
 		registration_dateColumn.setCellValueFactory(new PropertyValueFactory<goals, String>("registration_date"));
 		completeColumn.setCellValueFactory(new PropertyValueFactory<goals, Integer>("complete"));
 		incompleteColumn.setCellValueFactory(new PropertyValueFactory<goals, Integer>("incomplete"));
+		rateColumn.setCellValueFactory(new PropertyValueFactory<goals, Integer>("rate"));
 		
 		list = MySQLConnect.getDataGoals(complete1Button, complete2Button, complete3Button, complete4Button, complete5Button, complete6Button, complete7Button, complete8Button, complete9Button);
 		viewInGoalManageTabel.setItems(list);
@@ -170,43 +171,13 @@ public class MainController {
 		//주간 페이지
 		WeeklyController.WeeklyTable(dateInWeeklyLabel, viewInWeeklyTabel, noInWeeklyColumn ,monColumn, tueColumn, wedColumn, thuColumn, friColumn, satColumn, sunColumn);
 		
-		//incomplete 처리
-		String yesterday = LocalDate.now().minusDays(1).toString();
-		String[] str2 = yesterday.split("-");
-		String result2 = str2[0]+"y"+str2[1]+"m"+str2[2]+"d";
-		String SQL = "SELECT complete FROM "+ result2;
-		ArrayList<String> arr = new ArrayList<String>();
-		arr.add("zero");
-		try {
-			rs = st.executeQuery(SQL);
-			while(rs.next()) {
-				arr.add(rs.getString(1));
-			}
-			for(int i = 1; i < arr.size(); i++) {
-				if(arr.get(i).equals("미완료")) {
-					
-					String SQL2 = "UPDATE "+ result2 +" SET complete = '종료' WHERE num = "+ i;
-					st.executeUpdate(SQL2);
-					
-					String SQL3 = "SELECT incomplete FROM all_goals WHERE no = "+i;
-					rs = st.executeQuery(SQL3);
-					int newIncomplete = 0;
-					while(rs.next()) {
-						newIncomplete = Integer.parseInt(rs.getString(1)) + 1;
-					}
-					
-					String SQL4 = "UPDATE all_goals SET incomplete = " + newIncomplete + " WHERE no = "+i;
-					st.executeUpdate(SQL4);
-					System.out.println("update 종료 성공");
-					updateTable();
-				}
-			}
-		} catch (SQLException e) {
-			System.out.println("incomplete 처리실패: "+e.getMessage());
-			e.printStackTrace();
-		}
+		//incomplete처리
+		Incomplete incomp = new Incomplete();
+		incomp.incomplete();
 		
-		
+		//달성률처리
+		Rate rat = new Rate();
+		rat.rate();
 		
 	}
 	
@@ -219,6 +190,7 @@ public class MainController {
 		registration_dateColumn.setCellValueFactory(new PropertyValueFactory<goals, String>("registration_date"));
 		completeColumn.setCellValueFactory(new PropertyValueFactory<goals, Integer>("complete"));
 		incompleteColumn.setCellValueFactory(new PropertyValueFactory<goals, Integer>("incomplete"));
+		rateColumn.setCellValueFactory(new PropertyValueFactory<goals, Integer>("rate"));
 		
 		list = MySQLConnect.getDataGoals(complete1Button, complete2Button, complete3Button, complete4Button, complete5Button, complete6Button, complete7Button, complete8Button, complete9Button);
 		viewInGoalManageTabel.setItems(list);
@@ -239,6 +211,13 @@ public class MainController {
 		//주간 페이지
 		WeeklyController.WeeklyTable(dateInWeeklyLabel, viewInWeeklyTabel, noInWeeklyColumn ,monColumn, tueColumn, wedColumn, thuColumn, friColumn, satColumn, sunColumn);
 		
+		//incomplete처리
+		Incomplete incomp = new Incomplete();
+		incomp.incomplete();
+		
+		//달성률처리
+		Rate rat = new Rate();
+		rat.rate();
 	}
 	
 	public MainController() {
@@ -278,6 +257,7 @@ public class MainController {
 			goalManageAnchorPane.setVisible(true);
 			weeklyAnchorPane.setVisible(false);
 			dailyAnchorPane.setVisible(false);
+			updateTable();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -303,19 +283,23 @@ public class MainController {
 
 	public void registerButton(ActionEvent event) {
 		try {
+			InfoTextField.setText("목표를 등록중 입니다.");
+			infoAnchorPane.setVisible(true);
 			String newGoal = newGoalTextField.getText();
 			String simpleName = simpleNameTextField.getText();
 			String today = LocalDate.now().toString();
 			int defaultComplete = 0;
 			int defaultIncomplete = 0;
+			int defaultRate = 0;
 			
 			StringBuilder sb = new StringBuilder();
-			String SQL = sb.append("INSERT INTO all_goals(goal_detail, simple_name, registration_date, complete, incomplete) VALUES(")
+			String SQL = sb.append("INSERT INTO all_goals(goal_detail, simple_name, registration_date, complete, incomplete, rate) VALUES(")
 					.append("'"+newGoal+"',")
 					.append("'"+simpleName+"',")
 					.append("'"+today+"',")
 					.append(defaultComplete+",")
-					.append(defaultIncomplete+")")
+					.append(defaultIncomplete+",")
+					.append(defaultRate+")")
 					.toString();
 			st.executeUpdate(SQL);
 			newGoalTextField.setText("");
@@ -368,10 +352,73 @@ public class MainController {
 				}
 			}
 			
+			
+			String todayTmp = LocalDate.now().toString();
+			String[] str = todayTmp.split("-");
+			int month = Integer.parseInt(str[1]);
+			int dayOfMonth = Integer.parseInt(str[2]);
+			String todayDate = str[0] + "y" + str[1] + "m" + str[2] + "d";
+			String goalNum = "SELECT num FROM "+todayDate;
+			int cnt = 0;
+			rs = st.executeQuery(goalNum);
+			
+			while(rs.next()) {
+				cnt++;
+				System.out.println("cnt: "+cnt);
+			}
+			
+			for(int i = 1; i <= month; i++) {
+				for(int j = 1; j < dayOfMonth; j++) {
+					if(i <= 9) {
+						if(j <= 9) {
+							StringBuilder sb3 = new StringBuilder();
+							String SQL3 = sb3.append("DELETE FROM 2021y0")
+									.append(i+"m0")
+									.append(j+"d WHERE num = ")
+									.append(cnt)
+									.toString();
+							st.execute(SQL3);
+							System.out.println(+i+"월"+j+"일 성공");					
+						} else {
+							StringBuilder sb3 = new StringBuilder();
+							String SQL3 = sb3.append("DELETE FROM 2021y0")
+									.append(i+"m")
+									.append(j+"d WHERE num = ")
+									.append(cnt)
+									.toString();
+							st.execute(SQL3);
+							System.out.println(+i+"월"+j+"일 성공");		
+						}
+					} else {
+						if(j <= 9) {
+							StringBuilder sb3 = new StringBuilder();
+							String SQL3 = sb3.append("DELETE FROM 2021y")
+									.append(i+"m0")
+									.append(j+"d WHERE num = ")
+									.append(cnt)
+									.toString();
+							st.execute(SQL3);
+							System.out.println(+i+"월"+j+"일 성공");					
+						} else {
+							StringBuilder sb3 = new StringBuilder();
+							String SQL3 = sb3.append("DELETE FROM 2021y")
+									.append(i+"m")
+									.append(j+"d WHERE num = ")
+									.append(cnt)
+									.toString();
+							st.execute(SQL3);
+							System.out.println(+i+"월"+j+"일 성공");		
+						}
+					}
+				}
+			}
+			
+			
 			updateTable();
+			
 			InfoTextField.setText("성공적으로 목표를 등록하였습니다.");
-			infoAnchorPane.setVisible(true);
 		} catch (Exception e) {
+			System.out.println("register: "+e.getMessage());
 			e.printStackTrace();
 		}
 	}
@@ -504,24 +551,67 @@ public class MainController {
 		}
 	}
 	
-	public void complete1Button(ActionEvent event) {
-		
+	public void complete1Button(ActionEvent event) {	
 		String dateTmp = dateInDailyLabel.getText();
 		int number = 1;
 		Complete com = new Complete();
 		com.complete(dateTmp, number);
 		updateTable();
-
 	}
-	
 	public void complete2Button(ActionEvent event) {
-		
 		String dateTmp = dateInDailyLabel.getText();
 		int number = 2;
 		Complete com = new Complete();
 		com.complete(dateTmp, number);
 		updateTable();
-
-
+	}
+	public void complete3Button(ActionEvent event) {
+		String dateTmp = dateInDailyLabel.getText();
+		int number = 3;
+		Complete com = new Complete();
+		com.complete(dateTmp, number);
+		updateTable();
+	}
+	public void complete4Button(ActionEvent event) {
+		String dateTmp = dateInDailyLabel.getText();
+		int number = 4;
+		Complete com = new Complete();
+		com.complete(dateTmp, number);
+		updateTable();
+	}
+	public void complete5Button(ActionEvent event) {
+		String dateTmp = dateInDailyLabel.getText();
+		int number = 5;
+		Complete com = new Complete();
+		com.complete(dateTmp, number);
+		updateTable();
+	}
+	public void complete6Button(ActionEvent event) {
+		String dateTmp = dateInDailyLabel.getText();
+		int number = 6;
+		Complete com = new Complete();
+		com.complete(dateTmp, number);
+		updateTable();
+	}
+	public void complete7Button(ActionEvent event) {
+		String dateTmp = dateInDailyLabel.getText();
+		int number = 7;
+		Complete com = new Complete();
+		com.complete(dateTmp, number);
+		updateTable();
+	}
+	public void complete8Button(ActionEvent event) {
+		String dateTmp = dateInDailyLabel.getText();
+		int number = 8;
+		Complete com = new Complete();
+		com.complete(dateTmp, number);
+		updateTable();
+	}
+	public void complete9Button(ActionEvent event) {
+		String dateTmp = dateInDailyLabel.getText();
+		int number = 9;
+		Complete com = new Complete();
+		com.complete(dateTmp, number);
+		updateTable();
 	}
 }

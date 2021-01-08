@@ -8,9 +8,10 @@ public class goals {
 	String registration_date;
 	int complete;
 	int incomplete;
+	int rate;
 	
-	public goals(int no, String goal_detail, String simple_name, String registration_date, int complete,
-			int incomplete) {
+	public goals(int no, String goal_detail, String simple_name, String registration_date, int complete, int incomplete,
+			int rate) {
 		super();
 		this.no = no;
 		this.goal_detail = goal_detail;
@@ -18,6 +19,7 @@ public class goals {
 		this.registration_date = registration_date;
 		this.complete = complete;
 		this.incomplete = incomplete;
+		this.rate = rate;
 	}
 	
 	public int getNo() {
@@ -56,9 +58,11 @@ public class goals {
 	public void setIncomplete(int incomplete) {
 		this.incomplete = incomplete;
 	}
-	
-	
-	
-	
-	
+	public int getRate() {
+		return rate;
+	}
+	public void setRate(int rate) {
+		this.rate = rate;
+	}
+		
 }

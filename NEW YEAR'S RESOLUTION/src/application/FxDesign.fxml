@@ -61,16 +61,16 @@
             </ImageView>
             <Button fx:id="complete1Button" layoutX="525.0" layoutY="136.0" mnemonicParsing="false" onAction="#complete1Button" prefWidth="30.0" style="-fx-background-color: purple;" text="O" textFill="WHITE" visible="false" />
             <Button fx:id="complete2Button" layoutX="525.0" layoutY="160.0" mnemonicParsing="false" onAction="#complete2Button" prefWidth="30.0" style="-fx-background-color: purple;" text="O" textFill="WHITE" visible="false" />
-            <Button fx:id="complete3Button" layoutX="525.0" layoutY="184.0" mnemonicParsing="false" prefWidth="30.0" style="-fx-background-color: purple;" text="O" textFill="WHITE" visible="false" />
-            <Button fx:id="complete4Button" layoutX="525.0" layoutY="208.0" mnemonicParsing="false" prefWidth="30.0" style="-fx-background-color: purple;" text="O" textFill="WHITE" visible="false" />
-            <Button fx:id="complete5Button" layoutX="525.0" layoutY="232.0" mnemonicParsing="false" prefWidth="30.0" style="-fx-background-color: purple;" text="O" textFill="WHITE" visible="false" />
-            <Button fx:id="complete6Button" layoutX="525.0" layoutY="256.0" mnemonicParsing="false" prefWidth="30.0" style="-fx-background-color: purple;" text="O" textFill="WHITE" visible="false" />
-            <Button fx:id="complete7Button" layoutX="525.0" layoutY="280.0" mnemonicParsing="false" prefWidth="30.0" style="-fx-background-color: purple;" text="O" textFill="WHITE" visible="false" />
-            <Button fx:id="complete8Button" layoutX="525.0" layoutY="304.0" mnemonicParsing="false" prefWidth="30.0" style="-fx-background-color: purple;" text="O" textFill="WHITE" visible="false" />
-            <Button fx:id="complete9Button" layoutX="525.0" layoutY="328.0" mnemonicParsing="false" prefWidth="30.0" style="-fx-background-color: purple;" text="O" textFill="WHITE" visible="false" />
+            <Button fx:id="complete3Button" layoutX="525.0" layoutY="184.0" mnemonicParsing="false" onAction="#complete3Button" prefWidth="30.0" style="-fx-background-color: purple;" text="O" textFill="WHITE" visible="false" />
+            <Button fx:id="complete4Button" layoutX="525.0" layoutY="208.0" mnemonicParsing="false" onAction="#complete4Button" prefWidth="30.0" style="-fx-background-color: purple;" text="O" textFill="WHITE" visible="false" />
+            <Button fx:id="complete5Button" layoutX="525.0" layoutY="232.0" mnemonicParsing="false" onAction="#complete5Button" prefWidth="30.0" style="-fx-background-color: purple;" text="O" textFill="WHITE" visible="false" />
+            <Button fx:id="complete6Button" layoutX="525.0" layoutY="256.0" mnemonicParsing="false" onAction="#complete6Button" prefWidth="30.0" style="-fx-background-color: purple;" text="O" textFill="WHITE" visible="false" />
+            <Button fx:id="complete7Button" layoutX="525.0" layoutY="280.0" mnemonicParsing="false" onAction="#complete7Button" prefWidth="30.0" style="-fx-background-color: purple;" text="O" textFill="WHITE" visible="false" />
+            <Button fx:id="complete8Button" layoutX="525.0" layoutY="304.0" mnemonicParsing="false" onAction="#complete8Button" prefWidth="30.0" style="-fx-background-color: purple;" text="O" textFill="WHITE" visible="false" />
+            <Button fx:id="complete9Button" layoutX="525.0" layoutY="328.0" mnemonicParsing="false" onAction="#complete9Button" prefWidth="30.0" style="-fx-background-color: purple;" text="O" textFill="WHITE" visible="false" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="weeklyAnchorPane" layoutX="100.0" prefHeight="400.0" prefWidth="600.0" style="-fx-border-color: orange; -fx-background-color: white;">
+      <AnchorPane fx:id="weeklyAnchorPane" layoutX="100.0" prefHeight="400.0" prefWidth="600.0" style="-fx-border-color: orange; -fx-background-color: white;" visible="false">
          <children>
             <Label fx:id="dateInWeeklyLabel" alignment="CENTER" layoutX="150.0" layoutY="30.0" prefHeight="50.0" prefWidth="300.0" style="-fx-border-color: orange;" textAlignment="CENTER">
                <font>
@@ -111,11 +111,12 @@
             <TableView fx:id="viewInGoalManageTabel" layoutX="40.0" layoutY="110.0" prefHeight="270.0" prefWidth="520.0">
                <columns>
                   <TableColumn fx:id="noColumn" prefWidth="30.0" text="no" visible="false" />
-                  <TableColumn fx:id="goal_detailColumn" prefWidth="226.6666717529297" text="목표" />
-                  <TableColumn fx:id="simple_nameColumn" prefWidth="100.0" text="간단명" />
-                  <TableColumn fx:id="registration_dateColumn" prefWidth="90.0" text="등록일" />
+                  <TableColumn fx:id="goal_detailColumn" prefWidth="210.6666717529297" text="목표" />
+                  <TableColumn fx:id="simple_nameColumn" prefWidth="86.0" text="간단명" />
+                  <TableColumn fx:id="registration_dateColumn" prefWidth="70.0" text="등록일" />
                   <TableColumn fx:id="completeColumn" prefWidth="50.0" text="완료" />
                   <TableColumn fx:id="incompleteColumn" prefWidth="51.33331298828125" text="미완료" />
+                  <TableColumn fx:id="rateColumn" prefWidth="50.0" text="달성률" />
                </columns>
             </TableView>
          </children>
