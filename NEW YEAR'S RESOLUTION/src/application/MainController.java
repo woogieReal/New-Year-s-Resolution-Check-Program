@@ -150,7 +150,6 @@ public class MainController {
 		completeColumn.setCellValueFactory(new PropertyValueFactory<goals, Integer>("complete"));
 		incompleteColumn.setCellValueFactory(new PropertyValueFactory<goals, Integer>("incomplete"));
 		rateColumn.setCellValueFactory(new PropertyValueFactory<goals, Integer>("rate"));
-		
 		list = MySQLConnect.getDataGoals(complete1Button, complete2Button, complete3Button, complete4Button, complete5Button, complete6Button, complete7Button, complete8Button, complete9Button);
 		viewInGoalManageTabel.setItems(list);
 		
@@ -160,7 +159,6 @@ public class MainController {
 		dateInDailyLabel.setText(today);
 		String[] str = today.split("-");
 		String result = str[0]+"y"+str[1]+"m"+str[2]+"d";
-		
 		ObservableList<Daily> list2;
 		numColumn.setCellValueFactory(new PropertyValueFactory<Daily, Integer>("num"));
 		goal_detailInDailyColumn.setCellValueFactory(new PropertyValueFactory<Daily, String>("goal_detail"));
@@ -179,6 +177,9 @@ public class MainController {
 		Rate rat = new Rate();
 		rat.rate();
 		
+		//버튼없애기
+		HideCompleteButton hide = new HideCompleteButton();
+		hide.hideButton(complete1Button, complete2Button, complete3Button, complete4Button, complete5Button, complete6Button, complete7Button, complete8Button, complete9Button);
 	}
 	
 	public MainController() {
@@ -312,8 +313,7 @@ public class MainController {
 					}
 				}
 			}
-			
-			
+					
 			String todayTmp = LocalDate.now().toString();
 			String[] str = todayTmp.split("-");
 			int month = Integer.parseInt(str[1]);
@@ -413,38 +413,44 @@ public class MainController {
 			list2 = MySQLConnect.getDataDaily(result);
 			viewInDailyTabel.setItems(list2);
 			
+			String SQL = "SELECT no FROM all_goals";
+			int cnt = 0;
+			rs = st.executeQuery(SQL);
+			while(rs.next()) {
+				cnt++;
+			}
 			LocalDate realToday = LocalDate.now();
-			int realMonth = realToday.getMonthValue();
-			int realDay = realToday.getDayOfMonth();
 			LocalDate fakeYesterday = today2.minusDays(1);
-			int fakeMonth = fakeYesterday.getMonthValue();
-			int fakeDay = fakeYesterday.getDayOfMonth();
 			
-			if(realMonth >= fakeMonth) {
-				if(realDay > fakeDay) {
-					String SQL = "SELECT no FROM all_goals";
-					int cnt = 0;
-					rs = st.executeQuery(SQL);
-					while(rs.next()) {
-						cnt++;
-					}
-					switch(cnt) {
-					case 1: complete1Button.setVisible(false); break;
-					case 2: complete1Button.setVisible(false); complete2Button.setVisible(false);break;
-					case 3: complete1Button.setVisible(false); complete2Button.setVisible(false); complete3Button.setVisible(false); break;
-					case 4: complete1Button.setVisible(false); complete2Button.setVisible(false); complete3Button.setVisible(false); complete4Button.setVisible(false); break;
-					case 5: complete1Button.setVisible(false); complete2Button.setVisible(false); complete3Button.setVisible(false); complete4Button.setVisible(false); complete5Button.setVisible(false); break;
-					case 6: complete1Button.setVisible(false); complete2Button.setVisible(false); complete3Button.setVisible(false); complete4Button.setVisible(false); complete5Button.setVisible(false); complete6Button.setVisible(false); break;
-					case 7: complete1Button.setVisible(false); complete2Button.setVisible(false); complete3Button.setVisible(false); complete4Button.setVisible(false); complete5Button.setVisible(false); complete6Button.setVisible(false); complete7Button.setVisible(false); break;
-					case 8: complete1Button.setVisible(false); complete2Button.setVisible(false); complete3Button.setVisible(false); complete4Button.setVisible(false); complete5Button.setVisible(false); complete6Button.setVisible(false); complete7Button.setVisible(false); complete8Button.setVisible(false); break;
-					case 9: complete1Button.setVisible(false); complete2Button.setVisible(false); complete3Button.setVisible(false); complete4Button.setVisible(false); complete5Button.setVisible(false); complete6Button.setVisible(false); complete7Button.setVisible(false); complete8Button.setVisible(false); complete9Button.setVisible(false); break;		
-					}
-					
+			if(!realToday.equals(fakeYesterday)) {
+				switch(cnt) {
+				case 1: complete1Button.setVisible(false); break;
+				case 2: complete1Button.setVisible(false); complete2Button.setVisible(false);break;
+				case 3: complete1Button.setVisible(false); complete2Button.setVisible(false); complete3Button.setVisible(false); break;
+				case 4: complete1Button.setVisible(false); complete2Button.setVisible(false); complete3Button.setVisible(false); complete4Button.setVisible(false); break;
+				case 5: complete1Button.setVisible(false); complete2Button.setVisible(false); complete3Button.setVisible(false); complete4Button.setVisible(false); complete5Button.setVisible(false); break;
+				case 6: complete1Button.setVisible(false); complete2Button.setVisible(false); complete3Button.setVisible(false); complete4Button.setVisible(false); complete5Button.setVisible(false); complete6Button.setVisible(false); break;
+				case 7: complete1Button.setVisible(false); complete2Button.setVisible(false); complete3Button.setVisible(false); complete4Button.setVisible(false); complete5Button.setVisible(false); complete6Button.setVisible(false); complete7Button.setVisible(false); break;
+				case 8: complete1Button.setVisible(false); complete2Button.setVisible(false); complete3Button.setVisible(false); complete4Button.setVisible(false); complete5Button.setVisible(false); complete6Button.setVisible(false); complete7Button.setVisible(false); complete8Button.setVisible(false); break;
+				case 9: complete1Button.setVisible(false); complete2Button.setVisible(false); complete3Button.setVisible(false); complete4Button.setVisible(false); complete5Button.setVisible(false); complete6Button.setVisible(false); complete7Button.setVisible(false); complete8Button.setVisible(false); complete9Button.setVisible(false); break;		
+				}
+			} else if(realToday.equals(fakeYesterday)){
+				switch(cnt) {
+				case 1: complete1Button.setVisible(true); break;
+				case 2: complete1Button.setVisible(true); complete2Button.setVisible(true);break;
+				case 3: complete1Button.setVisible(true); complete2Button.setVisible(true); complete3Button.setVisible(true); break;
+				case 4: complete1Button.setVisible(true); complete2Button.setVisible(true); complete3Button.setVisible(true); complete4Button.setVisible(true); break;
+				case 5: complete1Button.setVisible(true); complete2Button.setVisible(true); complete3Button.setVisible(true); complete4Button.setVisible(true); complete5Button.setVisible(true); break;
+				case 6: complete1Button.setVisible(true); complete2Button.setVisible(true); complete3Button.setVisible(true); complete4Button.setVisible(true); complete5Button.setVisible(true); complete6Button.setVisible(true); break;
+				case 7: complete1Button.setVisible(true); complete2Button.setVisible(true); complete3Button.setVisible(true); complete4Button.setVisible(true); complete5Button.setVisible(true); complete6Button.setVisible(true); complete7Button.setVisible(true); break;
+				case 8: complete1Button.setVisible(true); complete2Button.setVisible(true); complete3Button.setVisible(true); complete4Button.setVisible(true); complete5Button.setVisible(true); complete6Button.setVisible(true); complete7Button.setVisible(true); complete8Button.setVisible(true); break;
+				case 9: complete1Button.setVisible(true); complete2Button.setVisible(true); complete3Button.setVisible(true); complete4Button.setVisible(true); complete5Button.setVisible(true); complete6Button.setVisible(true); complete7Button.setVisible(true); complete8Button.setVisible(true); complete9Button.setVisible(true); break;		
 				}
 			}
 			
+			HideCompleteButton hide = new HideCompleteButton();
+			hide.hideButton(complete1Button, complete2Button, complete3Button, complete4Button, complete5Button, complete6Button, complete7Button, complete8Button, complete9Button);
 			
-						
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -505,7 +511,8 @@ public class MainController {
 				}
 			}
 
-			
+			HideCompleteButton hide = new HideCompleteButton();
+			hide.hideButton(complete1Button, complete2Button, complete3Button, complete4Button, complete5Button, complete6Button, complete7Button, complete8Button, complete9Button);
 						
 		} catch (Exception e) {
 			e.printStackTrace();
